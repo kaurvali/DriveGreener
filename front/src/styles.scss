@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+
+// Import functions and variables for colors
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+/* Todo
+*/
+
+$theme-colors: ( primary: $teal);
+// Import entire bootstrap
+@import "node_modules/bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+* {
+    font-family: 'Open Sans', sans-serif;
+}
