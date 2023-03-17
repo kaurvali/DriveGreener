@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.storageService.getUser().roles;
-        this.reloadPage();
+        this.goHome();
       },
       error: err => {
         this.errorMessage = err.error.message;
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  reloadPage(): void {
-    window.location.reload();
+  goHome(): void {
+    window.location.replace("/home")
   }
 }

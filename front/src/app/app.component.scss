@@ -1,0 +1,28 @@
+.menu-spacer {
+    flex: 1 1 auto;
+}
+
+.app-container {
+    margin: 0;
+    height: 100%;
+}
+
+.app-sidenav {
+    width: 230px;
+}
+
+.app-sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    max-height: 30px;
+}
+
+.hello-user {
+    padding: 4px 8px 4px 8px;
+    font-size: 12pt;
+}

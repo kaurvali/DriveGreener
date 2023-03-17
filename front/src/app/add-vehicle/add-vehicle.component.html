@@ -1,10 +1,10 @@
 <div class="container">
     <div class="register-title">
-        <h2 *ngIf="!isSuccessful">Register to become an user!</h2>
+        <h2>Add a vehicle</h2>
     </div>
-    <form *ngIf="!isSuccessful" name="form " (ngSubmit)="f.form.valid && onSubmit() " #f="ngForm" novalidate>
+    <form name="form" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
 
-        <mat-form-field class="register-full-width">
+        <!--<mat-form-field class="register-full-width">
             <mat-label>Username</mat-label>
             <input matInput matInput type="text" name="username" [(ngModel)]="form.username" required #username="ngModel" [ngClass]="{ 'is-invalid': f.submitted && username.errors }" />
             <mat-error *ngIf="username.errors && username.errors['required']">Username is <strong>required</strong></mat-error>
@@ -39,12 +39,6 @@
         <mat-error class="register-form-error" *ngIf="f.submitted && isSignUpFailed" role="alert">Signup failed!<br>{{ errorMessage }}<br>
         </mat-error>
         <button mat-stroked-button>Sign-up!</button>
-
+    -->
     </form>
-    <mat-card *ngIf="isSuccessful">
-        <mat-card-header>
-            <mat-card-title>Your registration is successful!</mat-card-title>
-            <mat-card-content>Log In to use the application</mat-card-content>
-        </mat-card-header>
-    </mat-card>
 </div>
