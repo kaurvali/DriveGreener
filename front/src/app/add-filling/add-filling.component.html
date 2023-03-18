@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="add-filling-title">
+        <h2>Add a new vehicle</h2>
+    </div>
+    <form class="add-filling-form" [formGroup]="filling">
+        <mat-form-field class="example-full-width datepicker-max" appearance="fill">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [max]="maxDate" formControlName="date" [matDatepicker]="picker">
+            <mat-hint>dd.MM.yyyy</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <button mat-stroked-button class="submit-button">Submit!</button>
+    </form>
+</div>

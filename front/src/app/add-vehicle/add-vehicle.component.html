@@ -1,44 +1,57 @@
 <div class="container">
-    <div class="register-title">
-        <h2>Add a vehicle</h2>
+    <div class="add-vehicle-title">
+        <h2>Add a new vehicle</h2>
     </div>
-    <form name="form" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
-
-        <!--<mat-form-field class="register-full-width">
-            <mat-label>Username</mat-label>
-            <input matInput matInput type="text" name="username" [(ngModel)]="form.username" required #username="ngModel" [ngClass]="{ 'is-invalid': f.submitted && username.errors }" />
-            <mat-error *ngIf="username.errors && username.errors['required']">Username is <strong>required</strong></mat-error>
-            <mat-error *ngIf="username.errors && username.errors['minlength']">
-                Username must be at least 3 characters
-            </mat-error>
-            <mat-error *ngIf="username.errors && username.errors['maxlength'] ">
-                Username must be at most 20 characters
-            </mat-error>
+    <form class="add-vehicle-form" [formGroup]="vehicle" (ngSubmit)="onSubmit()">
+        <mat-form-field class="add-vehicle-full-width">
+            <mat-label>Fuel type</mat-label>
+            <mat-select name="fuel" formControlName="fuel" required>
+                <mat-option value="petrol">Petrol</mat-option>
+                <mat-option value="diesel">Diesel</mat-option>
+                <mat-option value="electric">Electric</mat-option>
+            </mat-select>
         </mat-form-field>
-
-        <mat-form-field class="register-full-width">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" name="email" [(ngModel)]="form.email" required email #email="ngModel" [ngClass]="{ 'is-invalid': f.submitted && email.errors }" />
-            <mat-error *ngIf="email.errors && email.errors['required']">Email is <strong>required</strong></mat-error>
-            <mat-error *ngIf="email.errors && email.errors['email']">
-                Email must be a valid email address
-            </mat-error>
+        <mat-form-field class="add-vehicle-full-width">
+            <mat-label>Make</mat-label>
+            <input matInput type="text" required name="make" formControlName="make" />
         </mat-form-field>
-
-        <mat-form-field class="register-full-width ">
-            <mat-label>Password</mat-label>
-            <input matInput type="password" name="password" [(ngModel)]="form.password" required minlength="6 " #password="ngModel" [ngClass]="{ 'is-invalid': f.submitted && password.errors }" />
-            <mat-error *ngIf="password.errors && password.errors['required']">
-                Password is <strong>required</strong>
-            </mat-error>
-            <mat-error *ngIf="password.errors && password.errors['minlength']">
-                Password must be at least <strong>6 characters</strong>
-            </mat-error>
+        <mat-form-field class="add-vehicle-full-width">
+            <mat-label>Model</mat-label>
+            <input matInput type="text" required formControlName="model" />
         </mat-form-field>
-
-        <mat-error class="register-form-error" *ngIf="f.submitted && isSignUpFailed" role="alert">Signup failed!<br>{{ errorMessage }}<br>
-        </mat-error>
-        <button mat-stroked-button>Sign-up!</button>
-    -->
+        <mat-form-field class="add-vehicle-full-width">
+            <mat-label>Trim</mat-label>
+            <input matInput type="text" required formControlName="trim" />
+        </mat-form-field>
+        <mat-form-field class="add-vehicle-full-width">
+            <mat-label>Engine</mat-label>
+            <input matInput type="text" required formControlName="engine" />
+        </mat-form-field>
+        <mat-form-field class="add-vehicle-full-width">
+            <mat-label>Power (HP)</mat-label>
+            <input matInput type="number" required formControlName="power" />
+        </mat-form-field>
+        <mat-form-field class="add-vehicle-full-width">
+            <mat-label>Transmission</mat-label>
+            <mat-select formControlName="transmission" required>
+                <mat-option value="automatic">Automatic</mat-option>
+                <mat-option value="manual">Manual</mat-option>
+                <mat-option value="semi-automatic">Semi-Automatic</mat-option>
+                <mat-option value="direct">Direct (single speed)</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="add-vehicle-full-width">
+            <mat-label>Drivetrain</mat-label>
+            <mat-select formControlName="drivetrain" required>
+                <mat-option value="awd">AWD</mat-option>
+                <mat-option value="rwd">RWD</mat-option>
+                <mat-option value="fwd">FWD</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div>
+            <mat-label>Make car public?</mat-label>
+            <mat-checkbox value="checked" formControlName="public"></mat-checkbox>
+        </div>
+        <button mat-stroked-button class="submit-button">Submit!</button>
     </form>
 </div>

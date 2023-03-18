@@ -2,7 +2,7 @@
     <div class="register-title">
         <h2 *ngIf="!isSuccessful">Register to become an user!</h2>
     </div>
-    <form *ngIf="!isSuccessful" name="form " (ngSubmit)="f.form.valid && onSubmit() " #f="ngForm" novalidate>
+    <form *ngIf="!isSuccessful" class="register-form" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
 
         <mat-form-field class="register-full-width">
             <mat-label>Username</mat-label>
@@ -41,10 +41,9 @@
         <button mat-stroked-button>Sign-up!</button>
 
     </form>
-    <mat-card *ngIf="isSuccessful">
-        <mat-card-header>
-            <mat-card-title>Your registration is successful!</mat-card-title>
-            <mat-card-content>Log In to use the application</mat-card-content>
-        </mat-card-header>
-    </mat-card>
+    <div *ngIf="isSuccessful">
+        <h2>Your registration is successful!</h2>
+        <p>Log In to use the application</p>
+        <button mat-stroked-button (click)="goLogIn()">Login</button>
+    </div>
 </div>

@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,8 +15,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatCardModule } from '@angular/material/card';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RouterModule }   from '@angular/router';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,12 +27,11 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
-import { BoardAdminComponent } from './board-admin/board-admin.component';
-import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardUserComponent } from './board-user/board-user.component';
-
-import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
+import { AddFillingComponent } from './add-filling/add-filling.component';
+import { httpInterceptorProviders } from './_helpers/http.interceptor';
+import { AuthGuard } from './_guards/auth.guard';
 
 @NgModule({
   declarations: [
@@ -38,15 +40,15 @@ import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
     RegisterComponent,
     HomeComponent,
     ProfileComponent,
-    BoardAdminComponent,
-    BoardModeratorComponent,
     BoardUserComponent,
     AddVehicleComponent,
+    AddFillingComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
@@ -63,9 +65,13 @@ import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
+    MatSlideToggleModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     RouterModule.forRoot([])
   ],
-  providers: [httpInterceptorProviders],
+  providers: [httpInterceptorProviders, AuthGuard, MatDatepickerModule, { provide: LOCALE_ID, useValue: 'ee' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

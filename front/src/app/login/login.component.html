@@ -1,6 +1,7 @@
 <div class="container">
     <div class="login-title">
-        <h2>Log in using your username and password!</h2>
+        <h2 *ngIf="!isLoggedIn">Log in using your username and password!</h2>
+        <h2 *ngIf="isLoggedIn">You are already logged in!</h2>
     </div>
     <form *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
         <mat-form-field class="login-full-width">

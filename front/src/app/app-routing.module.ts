@@ -6,18 +6,19 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BoardUserComponent } from './board-user/board-user.component';
-import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
-import { BoardAdminComponent } from './board-admin/board-admin.component';
+import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
+import { AddFillingComponent } from './add-filling/add-filling.component';
+import { AuthGuard } from './_guards/auth.guard';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'user', component: BoardUserComponent },
-  { path: 'mod', component: BoardModeratorComponent },
-  { path: 'admin', component: BoardAdminComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
+  { path: 'home', component: HomeComponent },
+  { path: 'add-vehicle', component: AddVehicleComponent, data:{requiresLogin: true}, canActivate: [AuthGuard]},
+  { path: 'add-fillup', component: AddFillingComponent, data:{requiresLogin: true}, canActivate: [AuthGuard]},
+  { path: 'profile', component: ProfileComponent, data:{requiresLogin: true}, canActivate: [AuthGuard]},
+  { path: 'user', component: BoardUserComponent, data:{requiresLogin: true}, canActivate: [AuthGuard]},
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];
 
 @NgModule({
