@@ -20,6 +20,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RouterModule }   from '@angular/router';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -69,6 +71,8 @@ import { AuthGuard } from './_guards/auth.guard';
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatButtonToggleModule,
+    MatSliderModule,
     RouterModule.forRoot([])
   ],
   providers: [httpInterceptorProviders, AuthGuard, MatDatepickerModule, { provide: LOCALE_ID, useValue: 'ee' }],

@@ -6,10 +6,14 @@
         <mat-form-field class="add-vehicle-full-width">
             <mat-label>Fuel type</mat-label>
             <mat-select name="fuel" formControlName="fuel" required>
-                <mat-option value="petrol">Petrol</mat-option>
-                <mat-option value="diesel">Diesel</mat-option>
-                <mat-option value="electric">Electric</mat-option>
+                <mat-option value="PETROL">Petrol</mat-option>
+                <mat-option value="DIESEL">Diesel</mat-option>
+                <mat-option value="ELECTRICITY">Electric</mat-option>
             </mat-select>
+        </mat-form-field>
+        <mat-form-field class="add-vehicle-full-width">
+            <mat-label>Year</mat-label>
+            <input matInput type="number" required name="year" formControlName="year" [max]="maxYear" [min]="1800" />
         </mat-form-field>
         <mat-form-field class="add-vehicle-full-width">
             <mat-label>Make</mat-label>
@@ -34,18 +38,18 @@
         <mat-form-field class="add-vehicle-full-width">
             <mat-label>Transmission</mat-label>
             <mat-select formControlName="transmission" required>
-                <mat-option value="automatic">Automatic</mat-option>
-                <mat-option value="manual">Manual</mat-option>
-                <mat-option value="semi-automatic">Semi-Automatic</mat-option>
-                <mat-option value="direct">Direct (single speed)</mat-option>
+                <mat-option value="AUTOMATIC">Automatic</mat-option>
+                <mat-option value="MANUAL">Manual</mat-option>
+                <mat-option value="SEMI_AUTOMATIC">Semi-Automatic</mat-option>
+                <mat-option value="DIRECT">Direct (single speed)</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field class="add-vehicle-full-width">
             <mat-label>Drivetrain</mat-label>
             <mat-select formControlName="drivetrain" required>
-                <mat-option value="awd">AWD</mat-option>
-                <mat-option value="rwd">RWD</mat-option>
-                <mat-option value="fwd">FWD</mat-option>
+                <mat-option value="AWD">AWD</mat-option>
+                <mat-option value="RWD">RWD</mat-option>
+                <mat-option value="FWD">FWD</mat-option>
             </mat-select>
         </mat-form-field>
         <div>

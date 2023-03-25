@@ -1,5 +1,9 @@
 package ee.ut.cs.drivegreener.login.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import ee.ut.cs.drivegreener.vehicle.model.Vehicle;
+import ee.ut.cs.drivegreener.vehicle.repository.VehicleRepository;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -37,8 +41,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User() {
-    }
+    @OneToMany(mappedBy = "user")
+    private Set<Vehicle> vehicles = new HashSet<>();
+
+    public User() {}
 
     public User(String username, String email, String password) {
         this.username = username;
@@ -84,5 +90,25 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void addVehicle(Vehicle vehicle) {
+        this.vehicles.add(vehicle);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                ", vehicles=" + vehicles +
+                '}';
     }
 }

@@ -24,6 +24,24 @@
     width: 100%;
 }
 
-.datepicker-max {
+.add-filling-two-third-width {
+    width: calc((100% / 3) * 2);
+}
+
+.add-filling-third-width {
+    width: calc(100% / 3);
+    padding-left: 10px;
+}
+
+.three-buttons mat-button-toggle {
+    width: calc(100% / 3);
+}
+
+.three-buttons {
+    padding-bottom: 20px;
+    width: 100%;
+}
+
+.add-filling-full-width mat-slider {
     width: 100%;
 }
