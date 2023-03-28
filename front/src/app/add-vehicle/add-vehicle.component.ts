@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms'
+import { Router } from '@angular/router';
+import { StorageService } from '../_services/storage.service';
+import { VehicleService } from '../_services/vehicle.service';
 
 
 @Component({
@@ -7,27 +10,39 @@ import { FormControl, FormGroup } from '@angular/forms'
   templateUrl: './add-vehicle.component.html',
   styleUrls: ['./add-vehicle.component.scss']
 })
-export class AddVehicleComponent{
-  vehicle = new FormGroup({
-    fuel: new FormControl<VehicleType | null>(null),
-    year: new FormControl<number | null>(new Date().getFullYear()),
-    make: new FormControl(""),
-    model: new FormControl(""),
-    trim: new FormControl(""),
-    engine: new FormControl(""),
-    power: new FormControl(""),
-    transmission: new FormControl<TransmissionType | null>(null),
-    drivetrain: new FormControl<DrivetrainType | null>(null),
-    public: new FormControl(true),
-  });
-  
+export class AddVehicleComponent implements OnInit{
+    
   maxYear: number;
+  userId: number = -1;
 
-  constructor() {
+  constructor(private vehicleService: VehicleService, private storageService: StorageService, private router: Router) {
     this.maxYear = new Date().getFullYear();
   };
 
-  onSubmit(){};
+  ngOnInit(): void {
+    if (this.storageService.isLoggedIn()) {
+      this.userId = this.storageService.getUser().id;
+    }
+  }
+
+  vehicle = new FormGroup({
+    make: new FormControl(""),
+    model: new FormControl(""),
+    trim: new FormControl(""),
+    year: new FormControl<number | null>(new Date().getFullYear()),
+    engine: new FormControl(""),
+    power: new FormControl<number| null>(null),
+    transmission: new FormControl<TransmissionType | null>(null),
+    drivetrain: new FormControl<DrivetrainType | null>(null),
+    vehicleType: new FormControl<VehicleType | null>(null),
+    isPublic: new FormControl(true),
+    userId: new FormControl(this.storageService.getUser().id)
+  });
+
+  onSubmit(){
+    this.vehicleService.addVehicle(this.vehicle);
+    this.router.navigate(['/vehicles']);
+  };
 
 }
 

@@ -34,6 +34,8 @@ import { AddVehicleComponent } from './add-vehicle/add-vehicle.component';
 import { AddFillingComponent } from './add-filling/add-filling.component';
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { AuthGuard } from './_guards/auth.guard';
+import { VehiclesComponent } from './vehicles/vehicles.component';
+import { FillUpsComponent } from './fill-ups/fill-ups.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { AuthGuard } from './_guards/auth.guard';
     ProfileComponent,
     BoardUserComponent,
     AddVehicleComponent,
-    AddFillingComponent
+    AddFillingComponent,
+    VehiclesComponent,
+    FillUpsComponent
   ],
   imports: [
     BrowserModule,

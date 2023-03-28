@@ -1,7 +1,9 @@
 package ee.ut.cs.drivegreener.vehicle.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import ee.ut.cs.drivegreener.login.model.Role;
 import ee.ut.cs.drivegreener.login.model.User;
+import ee.ut.cs.drivegreener.vehicle.dto.FillupDTO;
 import ee.ut.cs.drivegreener.vehicle.dto.VehicleDTO;
 import ee.ut.cs.drivegreener.vehicle.type.DrivetrainType;
 import ee.ut.cs.drivegreener.vehicle.type.TransmissionType;
@@ -10,7 +12,8 @@ import ee.ut.cs.drivegreener.vehicle.type.VehicleType;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "vehicles")
@@ -35,7 +38,7 @@ public class Vehicle {
     private String trim;
 
     @Column(name = "year")
-    private Integer year;
+    private int year;
 
     @Column(name = "engine")
     @Size(max = 50)
@@ -44,15 +47,15 @@ public class Vehicle {
     @Column(name = "power")
     private int power;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "transmission")
     private TransmissionType transmission;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "drivetrain")
     private DrivetrainType drivetrain;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "fuel")
     private VehicleType vehicleType;
 
@@ -63,6 +66,9 @@ public class Vehicle {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    @OneToMany(mappedBy = "id")
+    private Set<Fillup> fillups = new HashSet<>();
 
     public Vehicle() {
 

@@ -11,6 +11,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
 
     Vehicle getVehicleById(long id);
 
+    List<Vehicle> getVehiclesByUserId(Long userId);
 
     List<Vehicle> getVehiclesByMake(@NotBlank @Size(max = 50) String make);
 

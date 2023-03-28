@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="fillup-card-container">
+        <h1>Your Vehicles</h1>
+        <button mat-stroked-button (click)="addFillup()" class="fillup-button">Add a new fillup</button>
+    </div>
+    <div class="fillup-card-container" *ngIf="fillups.length < 1">
+        <h3>Emptyness... Use the button above to add a vehicle</h3>
+    </div>
+    <div *ngFor="let fillup of fillups" class="fillup-card-container">
+        <mat-card class="vehicle-card">
+            <mat-card-header>
+                <mat-card-title>{{fillup.odometer}} {{fillup.fuelAmount}} {{fillup.price}}</mat-card-title>
+                <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p>This will have all of the statistics...</p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-button>EDIT</button>
+                <button mat-button>DELETE</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

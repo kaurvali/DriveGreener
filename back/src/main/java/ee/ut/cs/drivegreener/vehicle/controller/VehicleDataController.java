@@ -3,7 +3,9 @@ package ee.ut.cs.drivegreener.vehicle.controller;
 import ee.ut.cs.drivegreener.login.model.User;
 import ee.ut.cs.drivegreener.login.repository.UserRepository;
 import ee.ut.cs.drivegreener.vehicle.dto.VehicleDTO;
+import ee.ut.cs.drivegreener.vehicle.model.Fillup;
 import ee.ut.cs.drivegreener.vehicle.model.Vehicle;
+import ee.ut.cs.drivegreener.vehicle.repository.FillupRepository;
 import ee.ut.cs.drivegreener.vehicle.repository.VehicleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +27,12 @@ public class VehicleDataController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    private FillupRepository fillupRepository;
+
     Logger logger = LoggerFactory.getLogger(VehicleDataController.class);
 
-    @GetMapping("/get-vehicle/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Vehicle> getVehicle(@PathVariable("id") long id) {
         try {
@@ -38,9 +43,10 @@ public class VehicleDataController {
         }
     }
 
-    @PostMapping("/add-vehicle")
+    @PostMapping("/add")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Vehicle> addVehicle(@RequestBody VehicleDTO vehicleDTO) {
+        logger.info("NEW ENTRY");
         try {
             Vehicle vehicle = new Vehicle(vehicleDTO);
             User user = userRepository.getReferenceById(vehicleDTO.getUserId());
@@ -53,16 +59,22 @@ public class VehicleDataController {
         }
     }
 
-    @GetMapping("/get-vehicles")
+    @GetMapping("/all")
     @PreAuthorize("hasRole('USER')")
     public List<Vehicle> getVehicles() {
         return vehicleRepository.findAll();
     }
 
-    @GetMapping("/get-users")
+    @GetMapping("/{id}/fillups")
     @PreAuthorize("hasRole('USER')")
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public ResponseEntity<List<Fillup>> getFillups(@PathVariable("id") long id) {
+        try {
+            List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(id);
+            return new ResponseEntity<>(fillups, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 

@@ -5,7 +5,7 @@
     <form class="add-vehicle-form" [formGroup]="vehicle" (ngSubmit)="onSubmit()">
         <mat-form-field class="add-vehicle-full-width">
             <mat-label>Fuel type</mat-label>
-            <mat-select name="fuel" formControlName="fuel" required>
+            <mat-select name="fuel" formControlName="vehicleType" required>
                 <mat-option value="PETROL">Petrol</mat-option>
                 <mat-option value="DIESEL">Diesel</mat-option>
                 <mat-option value="ELECTRICITY">Electric</mat-option>
@@ -54,8 +54,8 @@
         </mat-form-field>
         <div>
             <mat-label>Make car public?</mat-label>
-            <mat-checkbox value="checked" formControlName="public"></mat-checkbox>
+            <mat-checkbox value="checked" formControlName="isPublic"></mat-checkbox>
         </div>
-        <button mat-stroked-button class="submit-button">Submit!</button>
+        <button mat-stroked-button class="submit-button" type="submit">Submit!</button>
     </form>
 </div>

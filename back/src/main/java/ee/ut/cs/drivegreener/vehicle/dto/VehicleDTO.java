@@ -5,8 +5,6 @@ import ee.ut.cs.drivegreener.vehicle.type.TransmissionType;
 import ee.ut.cs.drivegreener.vehicle.type.VehicleType;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class VehicleDTO {
     private String make;

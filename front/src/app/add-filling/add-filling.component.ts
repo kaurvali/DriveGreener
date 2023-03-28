@@ -1,53 +1,70 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms'
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { FillupService } from '../_services/fillup.service';
 
 @Component({
   selector: 'app-add-filling',
   templateUrl: './add-filling.component.html',
   styleUrls: ['./add-filling.component.scss']
 })
-export class AddFillingComponent {
+export class AddFillingComponent implements OnInit {
+  
+  vehicle: any = -1;
+  maxDate: Date;
+  constructor(private fillupService: FillupService, private router: Router, private route: ActivatedRoute) {
+    // setting the max date to today
+    this.maxDate = new Date();
+  }
+
+  ngOnInit() {
+    // getting the vehicle id from url
+    this.route.params.subscribe(params => {
+      this.vehicle = +params['id'];
+      console.log(this.vehicle);
+    });
+    this.filling.patchValue({
+      vehicleId: this.vehicle,
+    });
+  }
+
   filling = new FormGroup({
-    date: new FormControl(new Date()),
+    time: new FormControl(new Date()),
     trip: new FormControl({value: 0, disabled: true}),
-    distance: new FormControl(0),
-    fillingType: new FormControl("full"),
-    fuelType: new FormControl<String>(""),
+    odometer: new FormControl(0),
+    fillupType: new FormControl("FULL"),
+    fuelType: new FormControl(""),
     fuelAmount: new FormControl(0),
     price: new FormControl(0),
-    priceControl: new FormControl("full"),
-    fuelingNotes: new FormControl(""),
-    tires: new FormControl("summer"),
-    driving: new FormControl("normal"),
-    load: new FormControl("half"),
-    cityTime: new FormControl(50),
+    priceType: new FormControl("FULL"),
+    notes: new FormControl(""),
+    tires: new FormControl("SUMMER"),
+    drivingStyle: new FormControl("NORMAL"),
+    load: new FormControl("HALF"),
+    cityDriving: new FormControl(50),
+    vehicleId: new FormControl(this.vehicle)
   });
-  maxDate: Date;
+
+  onSubmit(){
+      this.fillupService.addFillup(this.filling);
+      this.router.navigate(['/fill-ups', this.vehicle]);
+  }
 
   formatLabel(value: number): string {
     return value + "%";
   }
 
-  constructor() {
-    // setting the max date to today
-    this.maxDate = new Date();
-  }
-
   // TODO - GET VEHICLE FUEL VALUE FROM DB!!!
 
   isPetrol(){
-    //this.filling.get("fuelType")!.setValue("95");
-    return false;
-  }
-
-  isDiesel(){
-    this.filling.get("fuelType")!.setValue("diesel");
     return true;
   }
 
+  isDiesel(){
+    return false;
+  }
+
   isElectric(){
-    //this.filling.get("fuelType")!.setValue("electric");
     return false;
   }
 }

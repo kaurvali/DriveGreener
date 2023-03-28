@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="vehicle-card-container">
+        <h1>Your Vehicles</h1>
+        <button mat-stroked-button class="vehicle-button" (click)="addVehicle()">Add a new vehicle</button>
+    </div>
+    <div class="vehicle-card-container" *ngIf="vehicles.length < 1">
+        <h3>Emptyness... Use the button above to add a vehicle</h3>
+    </div>
+    <div *ngFor="let vehicle of vehicles" class="vehicle-card-container">
+        <mat-card class="vehicle-card">
+            <mat-card-header>
+                <mat-card-title>{{vehicle.make}} {{vehicle.model}} {{vehicle.trim}}</mat-card-title>
+                <mat-card-subtitle>{{vehicle.engine}} {{vehicle.power}} HP {{vehicle.transmission}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p>Here will be avg fuel consumption if available</p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-button (click)="openFillups(vehicle.id)">FILLUPS</button>
+                <button mat-button>EDIT</button>
+                <button mat-button>DELETE</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

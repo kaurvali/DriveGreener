@@ -2,11 +2,11 @@
     <div class="add-filling-title">
         <h2>Add a new fillup</h2>
     </div>
-    <form class="add-filling-form" [formGroup]="filling">
+    <form class="add-filling-form" [formGroup]="filling" (ngSubmit)="onSubmit()">
         <mat-form-field class="add-filling-full-width" appearance="fill">
             <mat-label>Choose a date</mat-label>
-            <input matInput [max]="maxDate" formControlName="date" [matDatepicker]="picker" required>
-            <mat-hint>dd.MM.yyyy</mat-hint>
+            <input matInput [max]="maxDate" formControlName="time" [matDatepicker]="picker" required>
+            <mat-hint>DD.MM.YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker">
                 <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
             </mat-datepicker-toggle>
@@ -18,14 +18,14 @@
         </mat-form-field>
         <mat-form-field class="add-filling-full-width">
             <!-- TODO - VALIDATE DISTANCE NOT TO BE LESS THEN LAST TIME -->
-            <mat-label>Distance (km)</mat-label>
-            <input matInput type="number" formControlName="distance" required/>
+            <mat-label>Odometer (km)</mat-label>
+            <input matInput type="number" formControlName="odometer" required/>
         </mat-form-field>
         <div class="three-buttons">
-            <mat-button-toggle-group formControlName="fillingType" class="add-filling-full-width">
-                <mat-button-toggle value="full">Full fillup</mat-button-toggle>
-                <mat-button-toggle value="partial">Partial fillup</mat-button-toggle>
-                <mat-button-toggle value="first">First fillup</mat-button-toggle>
+            <mat-button-toggle-group formControlName="fillupType" class="add-filling-full-width">
+                <mat-button-toggle value="FULL">Full fillup</mat-button-toggle>
+                <mat-button-toggle value="PARTIAL">Partial fillup</mat-button-toggle>
+                <mat-button-toggle value="FIRST">First fillup</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
         <mat-form-field class="add-filling-full-width">
@@ -35,78 +35,78 @@
         <mat-form-field *ngIf="isPetrol()" class="add-filling-full-width">
             <mat-label>Fuel type</mat-label>
             <mat-select formControlName="fuelType" required>
-                <mat-option value="91">91 Octane</mat-option>
-                <mat-option value="95">95 Octane</mat-option>
-                <mat-option value="98">98 Octane</mat-option>
-                <mat-option value="99">99 Octane</mat-option>
-                <mat-option value="100+">100+ Octane</mat-option>
+                <mat-option value="P91">91 Octane</mat-option>
+                <mat-option value="P95">95 Octane</mat-option>
+                <mat-option value="P98">98 Octane</mat-option>
+                <mat-option value="P99">99 Octane</mat-option>
+                <mat-option value="P100">100+ Octane</mat-option>
                 <mat-option value="E85">Bioethanol</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field *ngIf="isDiesel()" class="add-filling-full-width">
             <mat-label>Fuel type</mat-label>
             <mat-select formControlName="fuelType" required>
-                <mat-option value="diesel">Diesel</mat-option>
-                <mat-option value="biodiesel">Biodiesel</mat-option>
+                <mat-option value="DIESEL">Diesel</mat-option>
+                <mat-option value="BIODIESEL">Biodiesel</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field *ngIf="isElectric()" class="add-filling-full-width">
             <mat-label>Fuel type</mat-label>
             <mat-select formControlName="fuelType" required>
-                <mat-option value="electric">Electricity</mat-option>
+                <mat-option value="ELECTRIC">Electricity</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field class="add-filling-two-third-width">
             <mat-label>Price</mat-label>
-            <input matInput type="number" formControlName="price" required/>
+            <input matInput type="number" name="fuelPrice" formControlName="price" required/>
         </mat-form-field>
         <mat-form-field class="add-filling-third-width">
             <mat-label>Price type</mat-label>
-            <mat-select formControlName="priceControl" required>
-                <mat-option value="full">Total Price</mat-option>
-                <mat-option value="perUnit">Unit Price</mat-option>
+            <mat-select formControlName="priceType" required>
+                <mat-option value="FULL">Total Price</mat-option>
+                <mat-option value="UNIT">Unit Price</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field class="add-filling-full-width">
             <mat-label>Fueling notes</mat-label>
-            <textarea matInput></textarea>
+            <textarea matInput formControlName="notes"></textarea>
         </mat-form-field>
 
         <div class="three-buttons">
             <p>Tires</p>
             <mat-button-toggle-group formControlName="tires" class="add-filling-full-width">
-                <mat-button-toggle value="summer">
+                <mat-button-toggle value="SUMMER">
                     <mat-icon>wb_sunny</mat-icon>
                 </mat-button-toggle>
-                <mat-button-toggle value="winter">
+                <mat-button-toggle value="WINTER">
                     <mat-icon>ac_unit</mat-icon>
                 </mat-button-toggle>
-                <mat-button-toggle value="all-season">All-Season</mat-button-toggle>
+                <mat-button-toggle value="ALL_SEASON">All-Season</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
 
         <div class="three-buttons">
             <p>Driving style</p>
-            <mat-button-toggle-group formControlName="driving" class="add-filling-full-width">
-                <mat-button-toggle value="eco">Eco</mat-button-toggle>
-                <mat-button-toggle value="normal">Normal</mat-button-toggle>
-                <mat-button-toggle value="sport">Sport</mat-button-toggle>
+            <mat-button-toggle-group formControlName="drivingStyle" class="add-filling-full-width">
+                <mat-button-toggle value="ECO">Eco</mat-button-toggle>
+                <mat-button-toggle value="NORMAL">Normal</mat-button-toggle>
+                <mat-button-toggle value="SPORT">Sport</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
 
         <div class="three-buttons">
             <p>Amount of luggage and people</p>
             <mat-button-toggle-group formControlName="load" class="add-filling-full-width">
-                <mat-button-toggle value="empty">Empty car</mat-button-toggle>
-                <mat-button-toggle value="half">Half load</mat-button-toggle>
-                <mat-button-toggle value="full">Full load</mat-button-toggle>
+                <mat-button-toggle value="EMPTY">Empty car</mat-button-toggle>
+                <mat-button-toggle value="HALF">Half load</mat-button-toggle>
+                <mat-button-toggle value="FULL">Full load</mat-button-toggle>
             </mat-button-toggle-group>
         </div>
 
         <div class="add-filling-full-width">
             <p>How much of the driving was in the City?</p>
             <mat-slider min="0" max="100" step="1" discrete [displayWith]="formatLabel">
-                <input matSliderThumb formControlName="cityTime">
+                <input matSliderThumb formControlName="cityDriving">
             </mat-slider>
         </div>
 
