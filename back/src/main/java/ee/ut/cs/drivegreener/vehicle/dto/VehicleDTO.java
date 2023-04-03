@@ -10,7 +10,7 @@ public class VehicleDTO {
     private String make;
     private String model;
     private String trim;
-    private Integer year;
+    private int year;
     private String engine;
     private int power;
     private TransmissionType transmission;

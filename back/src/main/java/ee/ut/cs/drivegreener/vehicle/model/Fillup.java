@@ -18,14 +18,11 @@ public class Fillup {
     @Column(name = "time")
     private Date time;
 
-    @Column(name = "trip")
-    private int trip;
-
     @Column(name = "odometer")
     private int odometer;
 
     @Column(name = "fuelAmount")
-    private int fuelAmount;
+    private double fuelAmount;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "fillupType")
@@ -104,11 +101,11 @@ public class Fillup {
         this.odometer = odometer;
     }
 
-    public int getFuelAmount() {
+    public double getFuelAmount() {
         return fuelAmount;
     }
 
-    public void setFuelAmount(int fuelAmount) {
+    public void setFuelAmount(double fuelAmount) {
         this.fuelAmount = fuelAmount;
     }
 

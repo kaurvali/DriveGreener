@@ -33,8 +33,21 @@
     padding-left: 10px;
 }
 
+mat-button-toggle {
+    width: 100%;
+}
+
+.two-buttons mat-button-toggle {
+    width: calc(100% / 2);
+}
+
 .three-buttons mat-button-toggle {
-    width: calc(100% / 3);
+    width: calc(100% / 2);
+}
+
+.buttons {
+    padding-bottom: 20px;
+    width: 100%;
 }
 
 .three-buttons {

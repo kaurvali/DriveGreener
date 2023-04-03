@@ -1,6 +1,6 @@
 export class Fillup {
     id!: number;
-    trip?: number;
+    time?: Date;
     odometer?: number;
     fillupType?: string;
     fuelType?: string;

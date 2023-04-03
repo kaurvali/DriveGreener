@@ -5,3 +5,63 @@
 .vehicle-button {
     width: 100%;
 }
+
+mat-card-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+
+.vehicle-image {
+    width: 15%
+}
+
+.vehicle-image img {
+    width: 100%;
+    padding-right: 25px;
+}
+
+.vehicle-data {
+    flex-grow: 4;
+}
+
+.vehicle-consumption-card {
+    width: calc(100%/3);
+    text-align: end;
+}
+
+#big-label {
+    font-size: 18pt;
+    font-weight: bold;
+}
+
+#other-label {
+    font-size: 14pt;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 8px;
+}
+
+mat-card:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+@media only screen and (max-width: 767px) {
+    .vehicle-image {
+        display: none;
+        width: 0;
+    }
+    #other-label {
+        font-size: 12pt;
+    }
+    mat-card-content {
+        flex-wrap: wrap;
+    }
+    .vehicle-consumption-card {
+        padding-top: 10px;
+        width: 100%;
+    }
+    .no-mobile {
+        display: none;
+    }
+}

@@ -2,29 +2,35 @@
     <div class="add-filling-title">
         <h2>Add a new fillup</h2>
     </div>
-    <form class="add-filling-form" [formGroup]="filling" (ngSubmit)="onSubmit()">
+    <form class="add-filling-form" [formGroup]="filling" (ngSubmit)="filling.valid && onSubmit()">
         <mat-form-field class="add-filling-full-width" appearance="fill">
             <mat-label>Choose a date</mat-label>
-            <input matInput [max]="maxDate" formControlName="time" [matDatepicker]="picker" required>
+            <input matInput [max]="maxDate" [min]="basicStats.lastFilling" formControlName="time" [matDatepicker]="picker" required>
             <mat-hint>DD.MM.YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker">
                 <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
             </mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-        <mat-form-field class="add-filling-full-width">
+
+        <!--<mat-form-field class="add-filling-full-width">
             <mat-label>Trip (km)</mat-label>
-            <input matInput type="number" formControlName="trip" />
-        </mat-form-field>
+            <input matInput type="number" value="{{this.basicStats.lastOdometer && this.filling.value.odometer ? filling.value.odometer - basicStats.lastOdometer : 0}}" disabled="true" />
+        </mat-form-field>-->
+
         <mat-form-field class="add-filling-full-width">
-            <!-- TODO - VALIDATE DISTANCE NOT TO BE LESS THEN LAST TIME -->
             <mat-label>Odometer (km)</mat-label>
             <input matInput type="number" formControlName="odometer" required/>
+            <mat-error>Odometer value must be bigger than last fillup!</mat-error>
         </mat-form-field>
-        <div class="three-buttons">
-            <mat-button-toggle-group formControlName="fillupType" class="add-filling-full-width">
+        <div class="two-buttons buttons" *ngIf="basicStats.firstDone">
+            <mat-button-toggle-group formControlName="fillupType" class="add-filling-full-width" required="true">
                 <mat-button-toggle value="FULL">Full fillup</mat-button-toggle>
                 <mat-button-toggle value="PARTIAL">Partial fillup</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+        <div class="buttons" *ngIf="!basicStats.firstDone">
+            <mat-button-toggle-group formControlName="fillupType" class="add-filling-full-width">
                 <mat-button-toggle value="FIRST">First fillup</mat-button-toggle>
             </mat-button-toggle-group>
         </div>

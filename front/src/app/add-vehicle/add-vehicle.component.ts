@@ -26,11 +26,11 @@ export class AddVehicleComponent implements OnInit{
   }
 
   vehicle = new FormGroup({
-    make: new FormControl(""),
-    model: new FormControl(""),
-    trim: new FormControl(""),
+    make: new FormControl(),
+    model: new FormControl(),
+    trim: new FormControl(),
     year: new FormControl<number | null>(new Date().getFullYear()),
-    engine: new FormControl(""),
+    engine: new FormControl(),
     power: new FormControl<number| null>(null),
     transmission: new FormControl<TransmissionType | null>(null),
     drivetrain: new FormControl<DrivetrainType | null>(null),
@@ -38,19 +38,23 @@ export class AddVehicleComponent implements OnInit{
     isPublic: new FormControl(true),
     userId: new FormControl(this.storageService.getUser().id)
   });
+  errorMsg: String = "";
 
   onSubmit(){
-    this.vehicleService.addVehicle(this.vehicle);
-    this.router.navigate(['/vehicles']);
+    this.vehicleService.addVehicle(this.vehicle).subscribe((res) => {
+      this.router.navigate(['/vehicles']);
+    },
+    (err)=>{
+      this.errorMsg = "Could not add vehicle! Please try again!";
+    });
   };
-
 }
 
 
 enum VehicleType {
   PETROL = "PETROL",
   DIESEL = "DIESEL",
-  ELECTRICITY = "ELECTRICITY",
+  ELECTRIC = "ELECTRIC",
 }
 
 enum TransmissionType {

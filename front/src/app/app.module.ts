@@ -37,6 +37,8 @@ import { AuthGuard } from './_guards/auth.guard';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 import { FillUpsComponent } from './fill-ups/fill-ups.component';
 
+import '@angular/common/locales/global/et';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,7 +81,7 @@ import { FillUpsComponent } from './fill-ups/fill-ups.component';
     MatSliderModule,
     RouterModule.forRoot([])
   ],
-  providers: [httpInterceptorProviders, AuthGuard, MatDatepickerModule, { provide: LOCALE_ID, useValue: 'ee' }],
+  providers: [httpInterceptorProviders, AuthGuard, MatDatepickerModule, { provide: LOCALE_ID, useValue: 'et' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

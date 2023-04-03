@@ -8,9 +8,8 @@ import java.util.Date;
 @Data
 public class FillupDTO {
     private Date time;
-    private int trip;
     private int odometer;
-    private int fuelAmount;
+    private double fuelAmount;
     private FillupType fillupType;
     private FuelType fuelType;
     private double price;

@@ -1,14 +1,15 @@
 <div class="container">
     <div class="add-vehicle-title">
         <h2>Add a new vehicle</h2>
+        <p><b>{{ errorMsg }}</b></p>
     </div>
-    <form class="add-vehicle-form" [formGroup]="vehicle" (ngSubmit)="onSubmit()">
+    <form class="add-vehicle-form" [formGroup]="vehicle" (ngSubmit)="vehicle.valid && onSubmit()">
         <mat-form-field class="add-vehicle-full-width">
             <mat-label>Fuel type</mat-label>
             <mat-select name="fuel" formControlName="vehicleType" required>
                 <mat-option value="PETROL">Petrol</mat-option>
                 <mat-option value="DIESEL">Diesel</mat-option>
-                <mat-option value="ELECTRICITY">Electric</mat-option>
+                <mat-option value="ELECTRIC">Electric</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field class="add-vehicle-full-width">
@@ -56,6 +57,6 @@
             <mat-label>Make car public?</mat-label>
             <mat-checkbox value="checked" formControlName="isPublic"></mat-checkbox>
         </div>
-        <button mat-stroked-button class="submit-button" type="submit">Submit!</button>
+        <button mat-stroked-button class="submit-button">Submit!</button>
     </form>
 </div>

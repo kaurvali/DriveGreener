@@ -5,3 +5,76 @@
 .fillup-button {
     width: 100%;
 }
+
+mat-card-content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.fillup-data {
+    width: 25%;
+}
+
+#first {
+    text-align: left;
+}
+
+#second,
+#third {
+    text-align: center;
+}
+
+#fourth {
+    text-align: right;
+}
+
+#big-data {
+    font-size: 18pt;
+    font-weight: bold;
+}
+
+#small-data {
+    font-size: 14pt;
+}
+
+#consumption-data {
+    font-size: 28pt;
+    font-weight: bold;
+}
+
+#fuel-label {
+    color: #607d8b;
+    font-size: 18pt;
+    font-weight: bold;
+}
+
+#data-label {
+    font-size: 14pt;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.no-margin {
+    margin: 0;
+}
+
+@media only screen and (max-width: 767px) {
+    #big-data {
+        font-size: 12pt;
+        font-weight: bold;
+    }
+    #consumption-data {
+        font-size: 20pt;
+        font-weight: bold;
+    }
+    #small-data,
+    #data-label {
+        font-size: 11pt;
+    }
+    #fuel-label {
+        color: #607d8b;
+        font-size: 12pt;
+        font-weight: bold;
+    }
+}

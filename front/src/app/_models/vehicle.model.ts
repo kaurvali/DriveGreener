@@ -1,3 +1,5 @@
+import { VehicleStatistics } from "../_dto/vehicle.statistics.dto";
+
 export class Vehicle {
     id!: number;
     make?: string;
@@ -11,4 +13,5 @@ export class Vehicle {
     vehicleType?: string;
     isPublic?: boolean;
     user?: number;
+    statistics?: VehicleStatistics;
   }

@@ -7,19 +7,33 @@
         <h3>Emptyness... Use the button above to add a vehicle</h3>
     </div>
     <div *ngFor="let vehicle of vehicles" class="vehicle-card-container">
-        <mat-card class="vehicle-card">
-            <mat-card-header>
-                <mat-card-title>{{vehicle.make}} {{vehicle.model}} {{vehicle.trim}}</mat-card-title>
-                <mat-card-subtitle>{{vehicle.engine}} {{vehicle.power}} HP {{vehicle.transmission}}</mat-card-subtitle>
-            </mat-card-header>
+        <mat-card class="vehicle-card" (click)="openFillups(vehicle.id)">
             <mat-card-content>
-                <p>Here will be avg fuel consumption if available</p>
+                <div class="vehicle-image">
+                    <img src="assets/icon/vehicle-icon.svg">
+                </div>
+                <div class="vehicle-data">
+                    <p id="big-label">{{getName(vehicle)}}</p>
+                    <p id="other-label">{{getSpecs(vehicle)}}</p>
+                </div>
+                <div class="vehicle-consumption-card" *ngIf="vehicle.statistics?.fuelConsumption != 0">
+                    <p id="big-label">⌀ {{ vehicle.statistics?.fuelConsumption }} l/100km</p>
+                    <p id="other-label">Distance travelled: {{ vehicle.statistics?.distance }}km</p>
+                    <p id="other-label" class="no-mobile">CO2 Produced: {{ vehicle.statistics?.co }}kg</p>
+                    <p id="other-label" class="no-mobile">Total cost: {{ vehicle.statistics?.totalCost }}€</p>
+                    <p id="other-label">Fuel used: {{ vehicle.statistics?.fuelConsumed }}L</p>
+                </div>
+                <div class="vehicle-consumption-card" *ngIf="vehicle.statistics?.fuelConsumption == 0">
+                    <p id="big-label">⌀ --.-- l/100km</p>
+                    <p id="other-label">No Fillups yet!</p>
+
+                </div>
             </mat-card-content>
-            <mat-card-actions>
+            <!--<mat-card-actions>
                 <button mat-button (click)="openFillups(vehicle.id)">FILLUPS</button>
                 <button mat-button>EDIT</button>
                 <button mat-button>DELETE</button>
-            </mat-card-actions>
+            </mat-card-actions>-->
         </mat-card>
     </div>
 </div>
