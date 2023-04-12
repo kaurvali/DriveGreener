@@ -18,13 +18,21 @@
                 </div>
                 <div class="fillup-data" id="third">
                     <p id="data-label">{{fillup.trip}} km</p>
-                    <p class="no-margin" id="data-label">{{fillup.fuelConsumed}} l</p>
+                    <p id="data-label">{{fillup.fuelConsumed}} {{getFuelUnit(fillup.fuelType)}}</p>
+                    <p class="no-margin" id="data-label">{{fillup.totalCost}} €</p>
                 </div>
                 <div class="fillup-data">
-                    <div id="fourth">
+                    <div id="fourth" *ngIf="fillup.fillupType == 'FULL'; else NotFull">
                         <p id="consumption-data">{{fillup.fuelConsumption}}</p>
-                        <p class="no-margin" id="data-label">l/100km</p>
+                        <p class="no-margin" id="data-label">{{getFuelUnit(fillup.fuelType)}}/100km</p>
                     </div>
+                    <ng-template #NotFull>
+                        <div id="fourth">
+                            <p id="consumption-data" *ngIf="fillup.fillupType == 'FIRST'">First</p>
+                            <p id="consumption-data" *ngIf="fillup.fillupType == 'PARTIAL'">Partial</p>
+                            <p class="no-margin" id="data-label">Fillup</p>
+                        </div>
+                    </ng-template>
                 </div>
             </mat-card-content>
             <!--<mat-card-actions>

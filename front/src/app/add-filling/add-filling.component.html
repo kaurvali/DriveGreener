@@ -35,10 +35,10 @@
             </mat-button-toggle-group>
         </div>
         <mat-form-field class="add-filling-full-width">
-            <mat-label>Fuel amount (L)</mat-label>
+            <mat-label>{{basicStats.vehicleType == 'ELECTRIC' ? "Energy" : "Fuel"}} amount ({{basicStats.vehicleType == 'ELECTRIC' ? "kWh" : "l"}})</mat-label>
             <input matInput type="number" formControlName="fuelAmount" required/>
         </mat-form-field>
-        <mat-form-field *ngIf="isPetrol()" class="add-filling-full-width">
+        <mat-form-field *ngIf="basicStats.vehicleType == 'PETROL'" class="add-filling-full-width">
             <mat-label>Fuel type</mat-label>
             <mat-select formControlName="fuelType" required>
                 <mat-option value="P91">91 Octane</mat-option>
@@ -49,15 +49,15 @@
                 <mat-option value="E85">Bioethanol</mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field *ngIf="isDiesel()" class="add-filling-full-width">
+        <mat-form-field *ngIf="basicStats.vehicleType == 'DIESEL'" class="add-filling-full-width">
             <mat-label>Fuel type</mat-label>
             <mat-select formControlName="fuelType" required>
                 <mat-option value="DIESEL">Diesel</mat-option>
                 <mat-option value="BIODIESEL">Biodiesel</mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field *ngIf="isElectric()" class="add-filling-full-width">
-            <mat-label>Fuel type</mat-label>
+        <mat-form-field *ngIf="basicStats.vehicleType == 'ELECTRIC'" class="add-filling-full-width">
+            <mat-label>Energy type</mat-label>
             <mat-select formControlName="fuelType" required>
                 <mat-option value="ELECTRIC">Electricity</mat-option>
             </mat-select>

@@ -1,10 +1,12 @@
 package ee.ut.cs.drivegreener.vehicle.controller;
 
 import ee.ut.cs.drivegreener.vehicle.dto.FillupDTO;
+import ee.ut.cs.drivegreener.vehicle.dto.GraphDTO;
 import ee.ut.cs.drivegreener.vehicle.model.Fillup;
 import ee.ut.cs.drivegreener.vehicle.model.Vehicle;
 import ee.ut.cs.drivegreener.vehicle.repository.FillupRepository;
 import ee.ut.cs.drivegreener.vehicle.repository.VehicleRepository;
+import ee.ut.cs.drivegreener.vehicle.service.FillupServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +15,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:8081", maxAge = 3600, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/fillup")
 public class FillupDataController {
 
+    Logger logger = LoggerFactory.getLogger(FillupDataController.class);
     @Autowired
     private FillupRepository fillupRepository;
-
     @Autowired
     private VehicleRepository vehicleRepository;
-
-    Logger logger = LoggerFactory.getLogger(FillupDataController.class);
+    @Autowired
+    private FillupServiceImpl fillupService;
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER')")
@@ -51,4 +55,35 @@ public class FillupDataController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/{id}/graphs/filling/consumption/{max}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<GraphDTO>> getFillingConsumptionGraph(@PathVariable("id") long id, @PathVariable("max") int max) {
+        try {
+            return new ResponseEntity<>(fillupService.getConsumptionPerFillingGraph(id, max), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}/graphs/filling/distance/{max}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<GraphDTO>> getFillingDistanceGraph(@PathVariable("id") long id, @PathVariable("max") int max) {
+        try {
+            return new ResponseEntity<>(fillupService.getDistancePerFillingGraph(id, max), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}/graphs/filling/price/{max}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<GraphDTO>> getFillingPriceGraph(@PathVariable("id") long id, @PathVariable("max") int max) {
+        try {
+            return new ResponseEntity<>(fillupService.getPricePerFillingGraph(id, max), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

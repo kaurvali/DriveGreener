@@ -8,4 +8,6 @@ export class FillupStatistics {
     fuelConsumed?: number;
     fuelConsumption?: number;
     totalCost?: number;
+    vehicleType?: string;
+    fillupType?: string;
 }

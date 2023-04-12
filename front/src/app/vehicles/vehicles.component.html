@@ -15,16 +15,17 @@
                 <div class="vehicle-data">
                     <p id="big-label">{{getName(vehicle)}}</p>
                     <p id="other-label">{{getSpecs(vehicle)}}</p>
+                    <p id="small-label">{{vehicle.vehicleType}}</p>
                 </div>
                 <div class="vehicle-consumption-card" *ngIf="vehicle.statistics?.fuelConsumption != 0">
-                    <p id="big-label">⌀ {{ vehicle.statistics?.fuelConsumption }} l/100km</p>
+                    <p id="big-label">⌀ {{ vehicle.statistics?.fuelConsumption }} {{getFuelUnit(vehicle)}}/100km</p>
                     <p id="other-label">Distance travelled: {{ vehicle.statistics?.distance }}km</p>
                     <p id="other-label" class="no-mobile">CO2 Produced: {{ vehicle.statistics?.co }}kg</p>
                     <p id="other-label" class="no-mobile">Total cost: {{ vehicle.statistics?.totalCost }}€</p>
-                    <p id="other-label">Fuel used: {{ vehicle.statistics?.fuelConsumed }}L</p>
+                    <p id="other-label">Fuel used: {{ vehicle.statistics?.fuelConsumed }}{{getFuelUnit(vehicle)}}</p>
                 </div>
                 <div class="vehicle-consumption-card" *ngIf="vehicle.statistics?.fuelConsumption == 0">
-                    <p id="big-label">⌀ --.-- l/100km</p>
+                    <p id="big-label">⌀ --.-- {{getFuelUnit(vehicle)}}/100km</p>
                     <p id="other-label">No Fillups yet!</p>
 
                 </div>

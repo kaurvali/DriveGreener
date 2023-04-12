@@ -1,6 +1,7 @@
 package ee.ut.cs.drivegreener.vehicle.dto;
 
 import ee.ut.cs.drivegreener.vehicle.type.FillupType;
+import ee.ut.cs.drivegreener.vehicle.type.VehicleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,6 @@ public class FillupStatisticsDTO {
     private double fuelConsumed;
     private double fuelConsumption;
     private double totalCost;
+    private VehicleType vehicleType;
+    private FillupType fillupType;
 }

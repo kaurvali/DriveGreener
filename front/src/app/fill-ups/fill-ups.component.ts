@@ -10,9 +10,6 @@ import { VehicleService } from '../_services/vehicle.service';
   styleUrls: ['./fill-ups.component.scss']
 })
 export class FillUpsComponent implements OnInit {
-getTrip() {
-throw new Error('Method not implemented.');
-}
 
   constructor(private userService: UserService, private vehicleService: VehicleService, private router: Router, private route: ActivatedRoute) { }
 
@@ -45,5 +42,12 @@ throw new Error('Method not implemented.');
     if (this.vehicleData)
       return this.vehicleData.year + " " + this.vehicleData.make + " " + this.vehicleData.model + " " + this.vehicleData.trim;
     return "";
+  }
+
+  getFuelUnit(fuelType: string|undefined) {
+    if(fuelType == "ELECTRIC"){
+      return "kWh"
+    }
+    return "l"
   }
 }

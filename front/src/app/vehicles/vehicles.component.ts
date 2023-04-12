@@ -48,4 +48,11 @@ export class VehiclesComponent implements OnInit{
   getSpecs(vehicle: Vehicle): string {
     return vehicle.engine + " " + vehicle.power + "HP " + vehicle.transmission + " " + vehicle.drivetrain;
   }
+
+  getFuelUnit(vehicle: Vehicle){
+    if(vehicle.vehicleType == "ELECTRIC"){
+      return "kWh"
+    }
+    return "l"
+  }
 }

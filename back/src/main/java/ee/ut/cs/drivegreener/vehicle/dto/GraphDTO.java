@@ -10,14 +10,12 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VehicleStatisticsDTO {
-    private double fuelConsumed;
-    private int distance;
-    private double fuelConsumption;
-    private double totalCost;
-    private double co;
-    private int lastOdometer;
-    private Date lastFilling;
-    private boolean firstDone;
+public class GraphDTO {
+    private long vehicleID;
     private VehicleType vehicleType;
+    private String description;
+    private Date time;
+    private int odometer;
+    private double valueDouble;
+    private int valueInt;
 }

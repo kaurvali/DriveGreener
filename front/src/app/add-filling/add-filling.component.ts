@@ -41,7 +41,6 @@ export class AddFillingComponent implements OnInit {
     // getting the vehicle id from url
     this.route.params.subscribe(params => {
       this.vehicle = +params['id'];
-      console.log(this.vehicle);
     });
     this.filling.patchValue({
       vehicleId: this.vehicle,
@@ -59,7 +58,9 @@ export class AddFillingComponent implements OnInit {
             this.filling.get('odometer')?.setValidators([Validators.min(this.basicStats.lastOdometer)])
           }
         }
-      });
+        console.log(res)
+        console.log(this.basicStats)
+    });
   }
 
   onSubmit(){
@@ -73,18 +74,6 @@ export class AddFillingComponent implements OnInit {
 
   formatLabel(value: number): string {
     return value + "%";
-  }
-
-  isPetrol(){
-    return true;
-  }
-
-  isDiesel(){
-    return false;
-  }
-
-  isElectric(){
-    return false;
   }
 
   getMinDate(){

@@ -46,6 +46,12 @@ mat-card:hover {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
+#small-label {
+    font-size: 11pt;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 8px;
+}
+
 @media only screen and (max-width: 767px) {
     .vehicle-image {
         display: none;

@@ -22,8 +22,10 @@
     "@angular/router": "^15.1.0",
     "angular-font-awesome": "^3.1.2",
     "bootstrap": "^4.6.2",
+    "echarts": "^5.4.2",
     "font-awesome": "^4.7.0",
     "fontawesome-free": "^1.0.4",
+    "ngx-echarts": "^15.0.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"

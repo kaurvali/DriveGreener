@@ -29,7 +29,7 @@ public class FuelConsumptionServiceImpl {
         Vehicle vehicle = vehicleRepository.getVehicleById(vehicleID);
 
         if (fillups.size() < 2) {
-            return new VehicleStatisticsDTO(0, 0, 0, 0, 0, 0, null, true);
+            return new VehicleStatisticsDTO(0, 0, 0, 0, 0, 0, null, false, vehicle.getVehicleType());
         } else {
             int start = fillups.get(0).getOdometer();
             int end = fillups.get(fillups.size() - 1).getOdometer();
@@ -37,10 +37,10 @@ public class FuelConsumptionServiceImpl {
             distance = end - start;
             fuelConsumed = calculateTotalFuel(fillups);
             fuelConsumption = Math.round(calculateFuelConsumption(start, end, fuelConsumed) * 100.0) / 100.0;
-            totalCost = calculateTotalCost(fillups);
+            totalCost = Math.round(calculateTotalCost(fillups)* 100.0) / 100.0;
             co = calculateTotalCO(fillups, vehicle.getVehicleType());
 
-            return new VehicleStatisticsDTO(fuelConsumed, distance, fuelConsumption, totalCost, co, 0, null, true);
+            return new VehicleStatisticsDTO(fuelConsumed, distance, fuelConsumption, totalCost, co, 0, null, false, vehicle.getVehicleType());
         }
     }
 
