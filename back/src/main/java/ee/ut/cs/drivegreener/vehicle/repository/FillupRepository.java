@@ -10,4 +10,7 @@ public interface FillupRepository extends JpaRepository<Fillup, Integer> {
     Fillup getFillupById(Long id);
 
     List<Fillup> getFillupsByVehicleId(Long vehicleId);
+
+    List<Fillup> getFillupsByVehicleIdAndCityDriving(Long vehicleId, int cityDriving);
+
 }

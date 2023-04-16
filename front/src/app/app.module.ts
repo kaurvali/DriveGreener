@@ -22,6 +22,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSliderModule } from '@angular/material/slider';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import { NgxEchartsModule } from 'ngx-echarts';
 
@@ -83,6 +84,7 @@ import { FillingGraphComponent } from './filling-graph/filling-graph.component';
     MatNativeDateModule,
     MatButtonToggleModule,
     MatSliderModule,
+    MatTabsModule,
     RouterModule.forRoot([]),
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'), // or import('./path-to-my-custom-echarts')

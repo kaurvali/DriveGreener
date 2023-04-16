@@ -1,5 +1,23 @@
-.fillup-card-container {
-    padding: 10px 0px 10px 0px;
+.section-title {
+    padding-top: 25px;
+}
+
+.statistic-card {
+    width: 100%;
+}
+
+app-filling-graph {
+    width: 100vw;
+    height: fit-content;
+}
+
+mat-card {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+mat-card {
+    padding: 0px 0px 10px 0px;
 }
 
 .fillup-button {

@@ -22,7 +22,41 @@ export class FillupService {
     return this.http.post(API_URL + 'add', JSON.stringify(form.value), httpOptions);
   }
 
-  getFillingPriceGraph(id: number, maxResults: number): Observable<Graph[]>{
-    return this.http.get<Graph[]>(API_URL + id + "/graphs/filling/price/" + maxResults, httpOptions)
+  getFillingDistanceGraph(id: number, maxResults: number): Observable<Graph>{
+    return this.http.get<Graph>(API_URL + id + "/graphs/filling/distance/" + maxResults, httpOptions)
+  }
+
+  getFillingConsumptionGraph(id: number, maxResults: number): Observable<Graph>{
+    return this.http.get<Graph>(API_URL + id + "/graphs/filling/consumption/" + maxResults, httpOptions)
+  }
+
+  getFillingPriceGraph(id: number, maxResults: number): Observable<Graph>{
+    return this.http.get<Graph>(API_URL + id + "/graphs/filling/price/" + maxResults, httpOptions)
+  }
+
+  getUnitPriceGraph(id: number, maxResults: number): Observable<Graph>{
+    return this.http.get<Graph>(API_URL + id + "/graphs/filling/unitprice/" + maxResults, httpOptions)
+  }
+
+  getCityConsumptionGraph(id: number): Observable<Graph>{
+    return this.http.get<Graph>(API_URL + id + "/graphs/filling/citydriving/", httpOptions)
+  }
+
+  getLineGraph(type: string, id: number, maxResults: number): Observable<Graph>{
+    if (type=="price"){
+      return this.getFillingPriceGraph(id, maxResults);
+    }
+    else if (type=="trip"){
+      return this.getFillingDistanceGraph(id, maxResults);
+    }
+    else if (type=="unitprice"){
+      return this.getUnitPriceGraph(id, maxResults);
+    }
+    else if (type=="city"){
+      return this.getCityConsumptionGraph(id);
+    }
+    else{
+      return this.getFillingConsumptionGraph(id, maxResults);
+    }
   }
 }

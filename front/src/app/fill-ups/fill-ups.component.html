@@ -1,6 +1,56 @@
 <div class="container">
+    <div class="statistics-card-container" *ngIf="fillups.length > 2">
+        <h2 class="section-title">Statistics for {{ getName() }}</h2>
+        <mat-tab-group preserveContent>
+            <mat-tab label="Consumption per filling">
+                <ng-template matTabContent>
+                    <mat-card class="statistic-card">
+                        <mat-card-content>
+                            <app-filling-graph [vehicleID]="vehicle" [type]="'consumption'"></app-filling-graph>
+                        </mat-card-content>
+                    </mat-card>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Trip per filling">
+                <ng-template matTabContent>
+                    <mat-card class="statistic-card">
+                        <mat-card-content>
+                            <app-filling-graph [vehicleID]="vehicle" [type]="'trip'"></app-filling-graph>
+                        </mat-card-content>
+                    </mat-card>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Price per filling">
+                <ng-template matTabContent>
+                    <mat-card class="statistic-card">
+                        <mat-card-content>
+                            <app-filling-graph [vehicleID]="vehicle" [type]="'price'"></app-filling-graph>
+                        </mat-card-content>
+                    </mat-card>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Unit price">
+                <ng-template matTabContent>
+                    <mat-card class="statistic-card">
+                        <mat-card-content>
+                            <app-filling-graph [vehicleID]="vehicle" [type]="'unitprice'"></app-filling-graph>
+                        </mat-card-content>
+                    </mat-card>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="City consumption">
+                <ng-template matTabContent>
+                    <mat-card class="statistic-card">
+                        <mat-card-content>
+                            <app-filling-graph [vehicleID]="vehicle" [type]="'city'"></app-filling-graph>
+                        </mat-card-content>
+                    </mat-card>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
     <div class="fillup-card-container">
-        <h1>Fillups for {{ getName() }}</h1>
+        <h2 class="section-title">Fillups for {{ getName() }}</h2>
         <button mat-stroked-button (click)="addFillup()" class="fillup-button">Add a new fillup</button>
     </div>
     <div class="fillup-card-container" *ngIf="fillups.length < 1">

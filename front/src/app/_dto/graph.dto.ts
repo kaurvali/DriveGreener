@@ -1,9 +1,11 @@
 export class Graph {
     vehicleID!: number;
-    vehicleType?: string;
-    description?: string;
     time?: Date;
-    odometer?: number;
-    valueDouble?: number;
-    valueInt?: number;
+    odometer?: number[];
+    valueDouble?: number[];
+    description?: string;
+    xunit?: string;
+    yunit?: string;
+    xlabel?: string;
+    ylabel?: string;
 }

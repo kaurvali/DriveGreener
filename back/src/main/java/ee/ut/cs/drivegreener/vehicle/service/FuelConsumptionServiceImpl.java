@@ -76,19 +76,16 @@ public class FuelConsumptionServiceImpl {
             energy = 2.62;
         else
             energy = 2.39;
-
-        for (Fillup fillup : fillups) {
+        for (Fillup fillup : fillups)
             sum += fillup.getFuelAmount() * energy;
-        }
         return sum;
     }
 
     public double calculateTotalFuel(List<Fillup> fillups) {
         double sum = 0;
         for (Fillup fillup : fillups) {
-            if (!fillup.getFillupType().equals(FillupType.FIRST)){
+            if (!fillup.getFillupType().equals(FillupType.FIRST))
                 sum += fillup.getFuelAmount();
-            }
         }
         return sum;
     }

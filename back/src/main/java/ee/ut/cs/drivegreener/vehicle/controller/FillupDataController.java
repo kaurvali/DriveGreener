@@ -58,7 +58,7 @@ public class FillupDataController {
 
     @GetMapping("/{id}/graphs/filling/consumption/{max}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<GraphDTO>> getFillingConsumptionGraph(@PathVariable("id") long id, @PathVariable("max") int max) {
+    public ResponseEntity<GraphDTO> getFillingConsumptionGraph(@PathVariable("id") long id, @PathVariable("max") int max) {
         try {
             return new ResponseEntity<>(fillupService.getConsumptionPerFillingGraph(id, max), HttpStatus.OK);
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class FillupDataController {
 
     @GetMapping("/{id}/graphs/filling/distance/{max}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<GraphDTO>> getFillingDistanceGraph(@PathVariable("id") long id, @PathVariable("max") int max) {
+    public ResponseEntity<GraphDTO> getFillingDistanceGraph(@PathVariable("id") long id, @PathVariable("max") int max) {
         try {
             return new ResponseEntity<>(fillupService.getDistancePerFillingGraph(id, max), HttpStatus.OK);
         } catch (Exception e) {
@@ -78,12 +78,34 @@ public class FillupDataController {
 
     @GetMapping("/{id}/graphs/filling/price/{max}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<GraphDTO>> getFillingPriceGraph(@PathVariable("id") long id, @PathVariable("max") int max) {
+    public ResponseEntity<GraphDTO> getFillingPriceGraph(@PathVariable("id") long id, @PathVariable("max") int max) {
         try {
             return new ResponseEntity<>(fillupService.getPricePerFillingGraph(id, max), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/{id}/graphs/filling/unitprice/{max}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<GraphDTO> getUnitpriceGraph(@PathVariable("id") long id, @PathVariable("max") int max) {
+        try {
+            return new ResponseEntity<>(fillupService.getUnitPriceGraph(id, max), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}/graphs/filling/citydriving/")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<GraphDTO> getCityDrivingGraph(@PathVariable("id") long id) {
+        return new ResponseEntity<>(fillupService.getCostPerCityDriving(id), HttpStatus.OK);
+/*
+        try {
+            return new ResponseEntity<>(fillupService.getCostPerCityDriving(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }*/
     }
 
 }
