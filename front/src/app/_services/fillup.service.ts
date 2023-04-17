@@ -58,33 +58,36 @@ export class FillupService {
     return this.http.get<Graph>(API_URL + id + "/graphs/filling/fueltype/", httpOptions)
   }
 
+  getMonthlyConsumptionGraph(id: number): Observable<Graph>{
+    return this.http.get<Graph>(API_URL + id + "/graphs/filling/monthlyconsumption/", httpOptions)
+  }
+
+  getMonthlyCostGraph(id: number): Observable<Graph>{
+    return this.http.get<Graph>(API_URL + id + "/graphs/filling/monthlycost/", httpOptions)
+  }
+
   getLineGraph(type: string, id: number, maxResults: number): Observable<Graph>{
-    if (type=="price"){
+    if (type=="price")
       return this.getFillingPriceGraph(id, maxResults);
-    }
-    else if (type=="trip"){
+    else if (type=="trip")
       return this.getFillingDistanceGraph(id, maxResults);
-    }
-    else if (type=="unitprice"){
+    else if (type=="unitprice")
       return this.getUnitPriceGraph(id, maxResults);
-    }
-    else if (type=="city"){
+    else if (type=="city")
       return this.getCityConsumptionGraph(id);
-    }
-    else if (type=="drivingstyle"){
+    else if (type=="drivingstyle")
       return this.getDrivingStyleConsumptionGraph(id);
-    }
-    else if (type=="tire"){
+    else if (type=="tire")
       return this.getTireTypeConsumptionGraph(id);
-    }
-    else if (type=="weight"){
+    else if (type=="weight")
       return this.getWeightTypeConsumptionGraph(id);
-    }
-    else if (type=="fuel"){
+    else if (type=="fuel")
       return this.getFuelTypeConsumptionGraph(id);
-    }
-    else{
+    else if (type=="monthlycost")
+      return this.getMonthlyCostGraph(id);
+    else if (type=="monthlyconsumption")
+      return this.getMonthlyConsumptionGraph(id);
+    else
       return this.getFillingConsumptionGraph(id, maxResults);
-    }
   }
 }

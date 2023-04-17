@@ -136,11 +136,21 @@ public class FillupDataController {
         }
     }
 
-    @GetMapping("/{id}/graphs/filling/fueltype/")
+    @GetMapping("/{id}/graphs/filling/monthlycost/")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<GraphDTO> getFuelTypeConsumptionGraph(@PathVariable("id") long id) {
+    public ResponseEntity<GraphDTO> getMonthlyCost(@PathVariable("id") long id) {
         try {
-            return new ResponseEntity<>(fillupService.getFuelTypeGraph(id), HttpStatus.OK);
+            return new ResponseEntity<>(fillupService.getCostPerMonthGraph(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}/graphs/filling/monthlyconsumption/")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<GraphDTO> getMonthlyConsumption(@PathVariable("id") long id) {
+        try {
+            return new ResponseEntity<>(fillupService.getConsumptionPerMonthGraph(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
