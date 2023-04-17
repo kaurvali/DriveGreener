@@ -99,13 +99,50 @@ public class FillupDataController {
     @GetMapping("/{id}/graphs/filling/citydriving/")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<GraphDTO> getCityDrivingGraph(@PathVariable("id") long id) {
-        return new ResponseEntity<>(fillupService.getCostPerCityDriving(id), HttpStatus.OK);
-/*
         try {
             return new ResponseEntity<>(fillupService.getCostPerCityDriving(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }*/
+        }
     }
 
+    @GetMapping("/{id}/graphs/filling/drivingstyle/")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<GraphDTO> getDrivingStyleConsumptionGraph(@PathVariable("id") long id) {
+        try {
+            return new ResponseEntity<>(fillupService.getDrivingStyleGraph(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}/graphs/filling/tiretype/")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<GraphDTO> getTireTypeConsumptionGraph(@PathVariable("id") long id) {
+        try {
+            return new ResponseEntity<>(fillupService.getTireTypeGraph(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}/graphs/filling/loadtype/")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<GraphDTO> getLoadTypeConsumptionGraph(@PathVariable("id") long id) {
+        try {
+            return new ResponseEntity<>(fillupService.getLoadTypeGraph(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}/graphs/filling/fueltype/")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<GraphDTO> getFuelTypeConsumptionGraph(@PathVariable("id") long id) {
+        try {
+            return new ResponseEntity<>(fillupService.getFuelTypeGraph(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

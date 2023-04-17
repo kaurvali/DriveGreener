@@ -25,7 +25,7 @@ public class FuelConsumptionServiceImpl {
         double fuelConsumed, fuelConsumption, totalCost, co;
         int distance;
 
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
         Vehicle vehicle = vehicleRepository.getVehicleById(vehicleID);
 
         if (fillups.size() < 2) {
@@ -78,7 +78,7 @@ public class FuelConsumptionServiceImpl {
             energy = 2.39;
         for (Fillup fillup : fillups)
             sum += fillup.getFuelAmount() * energy;
-        return sum;
+        return Math.round(sum * 100.0) / 100.0;
     }
 
     public double calculateTotalFuel(List<Fillup> fillups) {

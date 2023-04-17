@@ -14,23 +14,35 @@ export class FillingGraphComponent implements OnInit {
   @Input() vehicleID: number = -1;
   @Input() maxResults: number = 50;
   @Input() type: string = "";
+  @Input() graphType: string = "line";
 
+  //graphData: number[][] = [];
+
+  categoryData: string[] = [];
+  odometerData: number[] = [];
+  doubleData: number[] = [];
+
+  graph: Graph = new Graph;
+
+  isLoading = true;
+  yUnit = ""
+  xUnit = ""
+  yLabel = ""
+  xLabel = ""
+  description = ""
 
   constructor(private fillupService: FillupService){}
 
-  graphData: number[][] = [];
-  isLoading = true;
-  yUnit = "€"
-  xUnit = "km"
-  yLabel = "Price"
-  xLabel = ""
-  description = "Price per filling"
-
   ngOnInit(): void {
+    console.log(this.graphType)
     this.fillupService.getLineGraph(this.type, this.vehicleID, this.maxResults).subscribe({
       next: (res) => {
-        console.log(res);
-        this.graphData = this.getDataForGraph(res);
+        //this.graphData = this.getDataForGraph(res);
+
+        this.categoryData = this.setCategoryData(res);
+        this.odometerData = this.setOdometerData(res);
+        this.doubleData = this.setDoubleData(res);
+
         if (res.description)
           this.description = res.description;
         if (res.xunit){
@@ -48,9 +60,12 @@ export class FillingGraphComponent implements OnInit {
       },
       error: (err) => console.error(err),
       complete: () => {
+        console.log(this.graphType);
+
         this.isLoading = false;
         var chartDom = document.getElementById(this.type+"-"+this.vehicleID)!;
         var myChart = echarts.init(chartDom, undefined, { renderer: 'svg' });
+
         myChart.setOption(this.getGraphOptions());
         window.addEventListener('resize', function() {
           myChart.resize();
@@ -60,9 +75,27 @@ export class FillingGraphComponent implements OnInit {
     ); 
   }
 
+  setDoubleData(res: Graph): number[] {
+    if (res.valueDouble)
+      return res.valueDouble;
+    return [];
+  }
+
+  setOdometerData(res: Graph): number[] {
+    if (res.odometer)
+      return res.odometer;
+    return [];
+  }
+
+  setCategoryData(res: Graph): string[] {
+    if (res.category)
+      return res.category;
+    return [];
+  }
+
   getDataForGraph(res: Graph){
     var out: number[][] = []
-    if (res.odometer && res.valueDouble){
+    if (res.odometer && res.valueDouble && res.category){
       for (let i = 0; i < res.odometer.length; i++){
         out.push([res.odometer[i], res.valueDouble[i]])
       }
@@ -71,12 +104,23 @@ export class FillingGraphComponent implements OnInit {
   }
 
   getGraphOptions(){
-    var odometerList = this.graphData.map(function (item) {
+    var dataList;
+    if (this.graphType == "bar"){
+      dataList = this.categoryData;
+    }
+    else {
+      dataList = this.odometerData;
+    }
+    var valueList = this.doubleData;
+
+    console.log(this.graphType);
+
+    /*var dataList = this.graphData.map(function (item) {
       return item[0];
     });
     var valueList = this.graphData.map(function (item) {
       return item[1];
-    });
+    });  */
 
     var option = {
       title: {
@@ -103,7 +147,7 @@ export class FillingGraphComponent implements OnInit {
       legend: {},
       xAxis: [{
         type: 'category',
-        data: odometerList,
+        data: dataList,
         axisLabel: {
           formatter: '{value}'+this.xUnit,
           fontSize: 14,
@@ -113,7 +157,7 @@ export class FillingGraphComponent implements OnInit {
       yAxis: [{
         type: 'value',
         min: function (value: { min: number; }) {
-          return Math.round(value.min - Math.round(value.min*0.5));
+          return Math.round(value.min - Math.round(value.min*0.20));
         },
         axisLabel: {
           formatter: '{value}'+this.yUnit,
@@ -128,7 +172,7 @@ export class FillingGraphComponent implements OnInit {
           data: valueList,
           color: '#607d8b',
           symbolSize: 8,
-          type: 'line',
+          type: this.graphType,
           lineStyle: {
             color: '#607d8b',
             width: 4,
@@ -138,4 +182,5 @@ export class FillingGraphComponent implements OnInit {
     };
     return option;
   }
+
 }

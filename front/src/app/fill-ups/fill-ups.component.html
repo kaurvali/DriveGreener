@@ -1,12 +1,13 @@
 <div class="container">
+    <h1 class="section-title">{{ getName() }}</h1>
     <div class="statistics-card-container" *ngIf="fillups.length > 2">
-        <h2 class="section-title">Statistics for {{ getName() }}</h2>
+        <h2 class="section-title">Statistics</h2>
         <mat-tab-group preserveContent>
             <mat-tab label="Consumption per filling">
                 <ng-template matTabContent>
                     <mat-card class="statistic-card">
                         <mat-card-content>
-                            <app-filling-graph [vehicleID]="vehicle" [type]="'consumption'"></app-filling-graph>
+                            <app-filling-graph [vehicleID]="vehicle" [type]="'consumption'" [graphType]="'line'"></app-filling-graph>
                         </mat-card-content>
                     </mat-card>
                 </ng-template>
@@ -15,7 +16,7 @@
                 <ng-template matTabContent>
                     <mat-card class="statistic-card">
                         <mat-card-content>
-                            <app-filling-graph [vehicleID]="vehicle" [type]="'trip'"></app-filling-graph>
+                            <app-filling-graph [vehicleID]="vehicle" [type]="'trip'" [graphType]="'line'"></app-filling-graph>
                         </mat-card-content>
                     </mat-card>
                 </ng-template>
@@ -24,7 +25,7 @@
                 <ng-template matTabContent>
                     <mat-card class="statistic-card">
                         <mat-card-content>
-                            <app-filling-graph [vehicleID]="vehicle" [type]="'price'"></app-filling-graph>
+                            <app-filling-graph [vehicleID]="vehicle" [type]="'price'" [graphType]="'line'"></app-filling-graph>
                         </mat-card-content>
                     </mat-card>
                 </ng-template>
@@ -33,7 +34,7 @@
                 <ng-template matTabContent>
                     <mat-card class="statistic-card">
                         <mat-card-content>
-                            <app-filling-graph [vehicleID]="vehicle" [type]="'unitprice'"></app-filling-graph>
+                            <app-filling-graph [vehicleID]="vehicle" [type]="'unitprice'" [graphType]="'line'"></app-filling-graph>
                         </mat-card-content>
                     </mat-card>
                 </ng-template>
@@ -42,7 +43,43 @@
                 <ng-template matTabContent>
                     <mat-card class="statistic-card">
                         <mat-card-content>
-                            <app-filling-graph [vehicleID]="vehicle" [type]="'city'"></app-filling-graph>
+                            <app-filling-graph [vehicleID]="vehicle" [type]="'city'" [graphType]="'line'"></app-filling-graph>
+                        </mat-card-content>
+                    </mat-card>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Fuel type">
+                <ng-template matTabContent>
+                    <mat-card class="statistic-card">
+                        <mat-card-content>
+                            <app-filling-graph [vehicleID]="vehicle" [type]="'fuel'" [graphType]="'bar'"></app-filling-graph>
+                        </mat-card-content>
+                    </mat-card>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Driving Style">
+                <ng-template matTabContent>
+                    <mat-card class="statistic-card">
+                        <mat-card-content>
+                            <app-filling-graph [vehicleID]="vehicle" [type]="'drivingstyle'" [graphType]="'bar'"></app-filling-graph>
+                        </mat-card-content>
+                    </mat-card>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Tire type">
+                <ng-template matTabContent>
+                    <mat-card class="statistic-card">
+                        <mat-card-content>
+                            <app-filling-graph [vehicleID]="vehicle" [type]="'tire'" [graphType]="'bar'"></app-filling-graph>
+                        </mat-card-content>
+                    </mat-card>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Vehicle Load">
+                <ng-template matTabContent>
+                    <mat-card class="statistic-card">
+                        <mat-card-content>
+                            <app-filling-graph [vehicleID]="vehicle" [type]="'weight'" [graphType]="'bar'"></app-filling-graph>
                         </mat-card-content>
                     </mat-card>
                 </ng-template>
@@ -50,7 +87,7 @@
         </mat-tab-group>
     </div>
     <div class="fillup-card-container">
-        <h2 class="section-title">Fillups for {{ getName() }}</h2>
+        <h2 class="section-title">Fillups</h2>
         <button mat-stroked-button (click)="addFillup()" class="fillup-button">Add a new fillup</button>
     </div>
     <div class="fillup-card-container" *ngIf="fillups.length < 1">
@@ -61,10 +98,13 @@
             <mat-card-content>
                 <div class="fillup-data" id="first">
                     <p id="big-data">{{fillup.time | date: 'dd.MM.yyyy'}}</p>
-                    <p class="no-margin" id="data-label">{{fillup.odometer}} km</p>
+                    <p id="data-label">{{fillup.odometer}} km</p>
+                    <p class="no-margin" id="data-label">{{fillup.pricePerKm}} €/100km</p>
                 </div>
                 <div class="fillup-data" id="second">
                     <p id="fuel-label" class="mat-primary">{{fillup.fuelType}}</p>
+                    <p class="drivingStyle" [ngClass]="{greenClass: fillup.drivingStyleType === 'ECO', 'redClass': fillup.drivingStyleType === 'SPORT','normalClass': fillup.drivingStyleType === 'NORMAL' }">{{fillup.drivingStyleType}}</p>
+                    <!-- <p id="data-label">{{fillup.loadType}} LOAD</p>-->
                 </div>
                 <div class="fillup-data" id="third">
                     <p id="data-label">{{fillup.trip}} km</p>

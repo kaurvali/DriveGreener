@@ -27,11 +27,14 @@ public class FillupServiceImpl {
     public VehicleStatisticsDTO getBasicStats(long vehicleId) {
         VehicleStatisticsDTO vehicleStatisticsDTO = new VehicleStatisticsDTO();
 
-        Fillup lastFillup = getLastFillup(vehicleId);
+        boolean firstDone = isFirstDone(vehicleId);
+        vehicleStatisticsDTO.setFirstDone(firstDone);
 
-        vehicleStatisticsDTO.setLastOdometer(lastFillup.getOdometer());
-        vehicleStatisticsDTO.setLastFilling(lastFillup.getTime());
-        vehicleStatisticsDTO.setFirstDone(isFirstDone(vehicleId));
+        if (firstDone) {
+            Fillup lastFillup = getLastFillup(vehicleId);
+            vehicleStatisticsDTO.setLastOdometer(lastFillup.getOdometer());
+            vehicleStatisticsDTO.setLastFilling(lastFillup.getTime());
+        }
 
         VehicleType vehicleType = vehicleRepository.getVehicleById(vehicleId).getVehicleType();
         vehicleStatisticsDTO.setVehicleType(vehicleType);
@@ -40,7 +43,7 @@ public class FillupServiceImpl {
     }
 
     private Fillup getLastFillup(long vehicleID) {
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
         int maxOdo = 0;
         Fillup out = fillups.get(0);
         for (Fillup fillup : fillups) {
@@ -56,7 +59,7 @@ public class FillupServiceImpl {
     public List<FillupStatisticsDTO> getFillupsStatistics(long vehicleID) {
         List<FillupStatisticsDTO> fillupStatisticsDTOList = new ArrayList<>();
 
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
 
         for (Fillup fillup : fillups) {
             fillupStatisticsDTOList.add(getFillupStatistic(fillup, vehicleID));
@@ -80,6 +83,8 @@ public class FillupServiceImpl {
         int odometer = fillup.getOdometer();
         fillupStatisticsDTO.setOdometer(odometer);
         fillupStatisticsDTO.setFillupType(fillup.getFillupType());
+        fillupStatisticsDTO.setLoadType(fillup.getLoad());
+        fillupStatisticsDTO.setDrivingStyleType(fillup.getDrivingStyle());
 
         // Remove P from enum
         String fuelType = fillup.getFuelType().toString();
@@ -90,17 +95,20 @@ public class FillupServiceImpl {
         double fuel = fillup.getFuelAmount();
         fillupStatisticsDTO.setFuelConsumed(fuel);
 
+        double price;
         // fuel price
         if (fillup.getPriceType().equals(PriceType.UNIT))
-            fillupStatisticsDTO.setTotalCost(Math.round(fillup.getPrice() * fillup.getFuelAmount() * 100.0) / 100.0);
+            price = Math.round(fillup.getPrice() * fillup.getFuelAmount() * 100.0) / 100.0;
         else
-            fillupStatisticsDTO.setTotalCost(Math.round(fillup.getPrice() * 100.0) / 100.0);
+            price = Math.round(fillup.getPrice() * 100.0) / 100.0;
+        fillupStatisticsDTO.setTotalCost(price);
 
         // Trip and fuel consumption
         // first fillup
         if (fillup.getFillupType().equals(FillupType.FIRST)) {
             fillupStatisticsDTO.setFuelConsumption(0);
             fillupStatisticsDTO.setTrip(0);
+            fillupStatisticsDTO.setPricePerKm(0);
         }
         // partial fillup
         else if (fillup.getFillupType().equals(FillupType.PARTIAL)) {
@@ -108,6 +116,7 @@ public class FillupServiceImpl {
             // calculate trip
             int trip = odometer - getPreviousFillupOdometer(vehicleID, odometer);
             fillupStatisticsDTO.setTrip(trip);
+            fillupStatisticsDTO.setPricePerKm((double) Math.round((price / trip * 100) * 100) / 100);
         }
         // full fillup
         else {
@@ -127,13 +136,14 @@ public class FillupServiceImpl {
             }
             fillupStatisticsDTO.setTrip(trip);
             fillupStatisticsDTO.setFuelConsumption((double) Math.round(((fuel / trip) * 100) * 100) / 100);
+            fillupStatisticsDTO.setPricePerKm((double) Math.round((price / trip * 100) * 100) / 100);
         }
 
         return fillupStatisticsDTO;
     }
 
     public int getPreviousFillupOdometer(long vehicleID, FillupType type, int odometer) {
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
         int maxOdo = -1;
         for (Fillup fillup : fillups) {
             int currentOdo = fillup.getOdometer();
@@ -151,7 +161,7 @@ public class FillupServiceImpl {
             previousFull = getPreviousFillupOdometer(vehicleID, FillupType.FIRST, odometer);
         double fuel = 0;
 
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
         for (Fillup fillup : fillups) {
             int currentOdo = fillup.getOdometer();
             if (fillup.getFillupType().equals(FillupType.PARTIAL) && currentOdo > previousFull && currentOdo < odometer) {
@@ -162,7 +172,7 @@ public class FillupServiceImpl {
     }
 
     public boolean isPreviousFirst(long vehicleID, int odometer) {
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
 
         int minFullOdo = Integer.MAX_VALUE;
 
@@ -175,7 +185,7 @@ public class FillupServiceImpl {
     }
 
     public int getPreviousFillupOdometer(long vehicleID, int odometer) {
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
         int maxOdo = 0;
         for (Fillup fillup : fillups) {
             int current = fillup.getOdometer();
@@ -187,7 +197,7 @@ public class FillupServiceImpl {
     }
 
     public Date getPreviousFillupDate(long vehicleID) {
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
         int maxOdo = 0;
         Date date = null;
         for (Fillup fillup : fillups) {
@@ -200,7 +210,7 @@ public class FillupServiceImpl {
     }
 
     public long getPreviousFillupId(long vehicleID) {
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
         int maxOdo = -1;
         long id = -1;
         for (Fillup fillup : fillups) {
@@ -213,12 +223,12 @@ public class FillupServiceImpl {
     }
 
     public boolean isFirstDone(long vehicleID) {
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
         return !fillups.isEmpty();
     }
 
     public GraphDTO getPricePerFillingGraph(long vehicleID, int max) {
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
         Collections.reverse(fillups);
 
         List<Integer> odometer = new ArrayList<>();
@@ -240,7 +250,7 @@ public class FillupServiceImpl {
     }
 
     public GraphDTO getConsumptionPerFillingGraph(long vehicleID, int max) {
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
         Collections.reverse(fillups);
 
         List<Integer> odometer = new ArrayList<>();
@@ -263,7 +273,7 @@ public class FillupServiceImpl {
     }
 
     public GraphDTO getUnitPriceGraph(long vehicleID, int max) {
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
         Collections.reverse(fillups);
 
         List<Integer> odometer = new ArrayList<>();
@@ -286,7 +296,7 @@ public class FillupServiceImpl {
     }
 
     public GraphDTO getDistancePerFillingGraph(long vehicleID, int max) {
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
         Collections.reverse(fillups);
 
         List<Integer> odometer = new ArrayList<>();
@@ -334,26 +344,30 @@ public class FillupServiceImpl {
     }
 
     public GraphDTO getConsumptionPerMonthGraph(long vehicleID, int max) {
+        // TODO
         return new GraphDTO();
     }
 
     public GraphDTO getCostPerMonthGraph(long vehicleID, int max) {
+        // TODO
         return new GraphDTO();
     }
 
-    public GraphDTO getDrivinStyleGraph(long vehicleID) {
+    public GraphDTO getDrivingStyleGraph(long vehicleID) {
         List<String> category = new ArrayList<>();
         List<Double> valueDouble = new ArrayList<>();
 
         for (DrivingStyleType style: DrivingStyleType.values()){
+            double consumption = getConsuptionForDrivingStyle(vehicleID, style);
+            if (consumption == 0) continue;
             category.add(style.toString());
-            valueDouble.add(getConsuptionForDrivingStyle(vehicleID, style));
+            valueDouble.add(consumption);
         }
         return new GraphDTO(vehicleID, new ArrayList<>(), new ArrayList<>(), category, valueDouble, "Consumption per Driving Style", "",getUnit(vehicleID)+"/100km","","Consumption");
     }
 
     public double getConsuptionForDrivingStyle(long vehicleID, DrivingStyleType style) {
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
         Collections.reverse(fillups);
 
         double fuelUsed = 0;
@@ -362,6 +376,7 @@ public class FillupServiceImpl {
         for (Fillup fillup : fillups) {
             if (fillup.getDrivingStyle().equals(style)){
                 FillupStatisticsDTO fillupStatisticsDTO = getFillupStatistic(fillup, vehicleID);
+                if (fillupStatisticsDTO.getTrip() == 0) continue;
                 fuelUsed += fillupStatisticsDTO.getFuelConsumed();
                 distance += fillupStatisticsDTO.getTrip();
             }
@@ -376,15 +391,17 @@ public class FillupServiceImpl {
         List<Double> valueDouble = new ArrayList<>();
 
         for (TireType tire: TireType.values()){
+            double consumption = getConsuptionForTireType(vehicleID, tire);
+            if (consumption == 0) continue;
             category.add(tire.toString());
-            valueDouble.add(getConsuptionForTireType(vehicleID, tire));
+            valueDouble.add(consumption);
         }
 
         return new GraphDTO(vehicleID, new ArrayList<>(), new ArrayList<>(), category, valueDouble, "Consumption per Driving Style", "",getUnit(vehicleID)+"/100km","","Consumption");
     }
 
     public double getConsuptionForTireType(long vehicleID, TireType tire) {
-        List<Fillup> fillups = fillupRepository.getFillupsByVehicleId(vehicleID);
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
         Collections.reverse(fillups);
 
         double fuelUsed = 0;
@@ -393,6 +410,75 @@ public class FillupServiceImpl {
         for (Fillup fillup : fillups) {
             if (fillup.getTires().equals(tire)){
                 FillupStatisticsDTO fillupStatisticsDTO = getFillupStatistic(fillup, vehicleID);
+                if (fillupStatisticsDTO.getTrip() == 0) continue;
+                fuelUsed += fillupStatisticsDTO.getFuelConsumed();
+                distance += fillupStatisticsDTO.getTrip();
+            }
+        }
+        if (distance == 0) return 0.0;
+
+        return (double) Math.round(fuelUsed / distance * 10000) / 100;
+    }
+
+    public GraphDTO getLoadTypeGraph(long vehicleID) {
+        List<String> category = new ArrayList<>();
+        List<Double> valueDouble = new ArrayList<>();
+
+        for (LoadType load: LoadType.values()){
+            double consumption = getConsuptionForLoad(vehicleID, load);
+            if (consumption == 0) continue;
+            category.add(load.toString());
+            valueDouble.add(consumption);
+        }
+
+        return new GraphDTO(vehicleID, new ArrayList<>(), new ArrayList<>(), category, valueDouble, "Consumption per Vehicle load", "",getUnit(vehicleID)+"/100km","","Consumption");
+    }
+
+    public double getConsuptionForLoad(long vehicleID, LoadType load) {
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
+        Collections.reverse(fillups);
+
+        double fuelUsed = 0;
+        double distance = 0;
+
+        for (Fillup fillup : fillups) {
+            if (fillup.getLoad().equals(load)){
+                FillupStatisticsDTO fillupStatisticsDTO = getFillupStatistic(fillup, vehicleID);
+                if (fillupStatisticsDTO.getTrip() == 0) continue;
+                fuelUsed += fillupStatisticsDTO.getFuelConsumed();
+                distance += fillupStatisticsDTO.getTrip();
+            }
+        }
+        if (distance == 0) return 0.0;
+
+        return (double) Math.round(fuelUsed / distance * 10000) / 100;
+    }
+
+    public GraphDTO getFuelTypeGraph(long vehicleID) {
+        List<String> category = new ArrayList<>();
+        List<Double> valueDouble = new ArrayList<>();
+
+        for (FuelType fuelType: FuelType.values()){
+            double consumption = getConsuptionForFuelType(vehicleID, fuelType);
+            if (consumption == 0) continue;
+            category.add(fuelType.toString());
+            valueDouble.add(consumption);
+        }
+
+        return new GraphDTO(vehicleID, new ArrayList<>(), new ArrayList<>(), category, valueDouble, "Consumption per Fuel Type", "",getUnit(vehicleID)+"/100km","","Consumption");
+    }
+
+    public double getConsuptionForFuelType(long vehicleID, FuelType fuel) {
+        List<Fillup> fillups = fillupRepository.getFillupsByVehicleIdOrderByOdometer(vehicleID);
+        Collections.reverse(fillups);
+
+        double fuelUsed = 0;
+        double distance = 0;
+
+        for (Fillup fillup : fillups) {
+            if (fillup.getFuelType().equals(fuel)){
+                FillupStatisticsDTO fillupStatisticsDTO = getFillupStatistic(fillup, vehicleID);
+                if (fillupStatisticsDTO.getTrip() == 0) continue;
                 fuelUsed += fillupStatisticsDTO.getFuelConsumed();
                 distance += fillupStatisticsDTO.getTrip();
             }

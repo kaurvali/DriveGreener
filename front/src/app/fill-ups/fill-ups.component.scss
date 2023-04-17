@@ -24,6 +24,23 @@ mat-card {
     width: 100%;
 }
 
+.greenClass {
+    color: green;
+}
+
+.redClass {
+    color: red;
+}
+
+.drivingStyle {
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.normalClass {
+    color: rgba(255, 255, 255, 0.7);
+}
+
 mat-card-content {
     width: 100%;
     display: flex;

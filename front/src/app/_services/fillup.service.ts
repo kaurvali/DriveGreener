@@ -42,6 +42,22 @@ export class FillupService {
     return this.http.get<Graph>(API_URL + id + "/graphs/filling/citydriving/", httpOptions)
   }
 
+  getDrivingStyleConsumptionGraph(id: number): Observable<Graph>{
+    return this.http.get<Graph>(API_URL + id + "/graphs/filling/drivingstyle/", httpOptions)
+  }
+
+  getTireTypeConsumptionGraph(id: number): Observable<Graph>{
+    return this.http.get<Graph>(API_URL + id + "/graphs/filling/tiretype/", httpOptions)
+  }
+
+  getWeightTypeConsumptionGraph(id: number): Observable<Graph>{
+    return this.http.get<Graph>(API_URL + id + "/graphs/filling/loadtype/", httpOptions)
+  }
+
+  getFuelTypeConsumptionGraph(id: number): Observable<Graph>{
+    return this.http.get<Graph>(API_URL + id + "/graphs/filling/fueltype/", httpOptions)
+  }
+
   getLineGraph(type: string, id: number, maxResults: number): Observable<Graph>{
     if (type=="price"){
       return this.getFillingPriceGraph(id, maxResults);
@@ -54,6 +70,18 @@ export class FillupService {
     }
     else if (type=="city"){
       return this.getCityConsumptionGraph(id);
+    }
+    else if (type=="drivingstyle"){
+      return this.getDrivingStyleConsumptionGraph(id);
+    }
+    else if (type=="tire"){
+      return this.getTireTypeConsumptionGraph(id);
+    }
+    else if (type=="weight"){
+      return this.getWeightTypeConsumptionGraph(id);
+    }
+    else if (type=="fuel"){
+      return this.getFuelTypeConsumptionGraph(id);
     }
     else{
       return this.getFillingConsumptionGraph(id, maxResults);
