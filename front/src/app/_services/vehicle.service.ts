@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
-import { Fillup } from '../_models/fillup.model';
 import { Observable } from 'rxjs';
 import { VehicleStatistics } from '../_dto/vehicle.statistics.dto';
 import { Vehicle } from '../_models/vehicle.model';

@@ -7,3 +7,94 @@ mat-card {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.banner-container {
+    position: relative;
+    display: inline-block;
+}
+
+.text-box {
+    position: absolute;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+}
+
+.text-box:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.text-box h1 {
+    display: inline-block;
+    font-size: 70px;
+    font-weight: 700;
+    color: #FFF;
+}
+
+img {
+    display: block;
+    object-fit: cover;
+    width: 100vw;
+    height: 300px;
+}
+
+h3 {
+    margin-bottom: 5px;
+}
+
+.header {
+    margin-top: 15px;
+}
+
+.footer-disclamer {
+    text-align: center;
+}
+
+h2 {
+    font-size: 20pt;
+}
+
+p,
+ul,
+li {
+    font-size: 14pt;
+}
+
+li {
+    padding-top: 5px;
+}
+
+h3 {
+    font-size: 16pt;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.header {
+    margin-top: 15px;
+    font-size: 22pt;
+}
+
+@media only screen and (max-width: 767px) {
+    p,
+    ul,
+    li {
+        font-size: 12pt;
+    }
+    h2 {
+        font-size: 16pt;
+    }
+    .text-box h1 {
+        display: inline-block;
+        font-size: 40px;
+        font-weight: 700;
+        color: #FFF;
+        line-height: normal;
+    }
+    img {
+        height: 100px;
+    }
+}

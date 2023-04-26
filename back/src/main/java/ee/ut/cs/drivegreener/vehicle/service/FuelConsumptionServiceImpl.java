@@ -1,5 +1,6 @@
 package ee.ut.cs.drivegreener.vehicle.service;
 
+import ee.ut.cs.drivegreener.vehicle.dto.UserStatisticsDTO;
 import ee.ut.cs.drivegreener.vehicle.dto.VehicleStatisticsDTO;
 import ee.ut.cs.drivegreener.vehicle.model.Fillup;
 import ee.ut.cs.drivegreener.vehicle.model.Vehicle;
@@ -20,6 +21,46 @@ public class FuelConsumptionServiceImpl {
     private FillupRepository fillupRepository;
     @Autowired
     private VehicleRepository vehicleRepository;
+
+    public UserStatisticsDTO calculateMultipleVehicleStatistics(long userId){
+        List<Vehicle> vehicles = vehicleRepository.getVehiclesByUserId(userId);
+
+        double fuelConsumed = 0.0;
+        double energyConsumed = 0.0;
+        double totalCost = 0.0;
+        double co = 0.0;
+        double elecDistance = 0.0;
+        double iceDistance = 0.0;
+        int distance = 0;
+
+        for (Vehicle vehicle : vehicles){
+            VehicleStatisticsDTO vehicleStatisticsDTO = calculateTotalVehicleParameters(vehicle.getId());
+            distance += vehicleStatisticsDTO.getDistance();
+            totalCost += vehicleStatisticsDTO.getTotalCost();
+            co += vehicleStatisticsDTO.getCo();
+            if (vehicle.getVehicleType().equals(VehicleType.ELECTRIC)){
+                energyConsumed += vehicleStatisticsDTO.getFuelConsumed();
+                elecDistance += vehicleStatisticsDTO.getDistance();
+            }
+            else {
+                fuelConsumed += vehicleStatisticsDTO.getFuelConsumed();
+                iceDistance += vehicleStatisticsDTO.getDistance();
+            }
+        }
+        double fuelConsumption = 0.0;
+        if (iceDistance != 0)
+            fuelConsumption = Math.round((fuelConsumed * 100) / iceDistance * 100.0) / 100.0;
+
+        double energyConsumption = 0.0;
+        if (elecDistance != 0)
+            energyConsumption = Math.round((energyConsumed * 100) / elecDistance * 100.0) / 100.0;
+        // calculate price per 100km
+        double hundredCost = 0.0;
+        if (distance!=0)
+            hundredCost = Math.round((totalCost * 100) / distance * 100.0) / 100.0;
+
+        return new UserStatisticsDTO(distance, fuelConsumed, energyConsumed, fuelConsumption, energyConsumption, totalCost, hundredCost, co);
+    }
 
     public VehicleStatisticsDTO calculateTotalVehicleParameters(long vehicleID) {
         double fuelConsumed, fuelConsumption, totalCost, co;

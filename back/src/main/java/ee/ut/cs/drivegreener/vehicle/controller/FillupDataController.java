@@ -126,6 +126,16 @@ public class FillupDataController {
         }
     }
 
+    @GetMapping("/{id}/graphs/filling/fueltype/")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<GraphDTO> geFuelTypeConsumptionGraph(@PathVariable("id") long id) {
+        try {
+            return new ResponseEntity<>(fillupService.getFuelTypeGraph(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/{id}/graphs/filling/loadtype/")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<GraphDTO> getLoadTypeConsumptionGraph(@PathVariable("id") long id) {

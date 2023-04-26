@@ -1,18 +1,94 @@
+<div class="banner-container">
+    <div class="text-box">
+        <h1>WELCOME TO DRIVEGREENER!</h1>
+    </div>
+    <img class="img-responsive" src="../assets/img/home-banner.jpg" alt="backdrop" />
+</div>
 <div class="container">
-    <p>Welcome to home</p>
-    <mat-card>
-        <mat-card-content>
-            <app-filling-graph [vehicleID]="41" [type]="'trip'"></app-filling-graph>
-        </mat-card-content>
-    </mat-card>
-    <mat-card>
-        <mat-card-content>
-            <app-filling-graph [vehicleID]="41" [type]="'price'"></app-filling-graph>
-        </mat-card-content>
-    </mat-card>
-    <mat-card>
-        <mat-card-content>
-            <app-filling-graph [vehicleID]="41" [type]="'consumption'"></app-filling-graph>
-        </mat-card-content>
-    </mat-card>
+    <div *ngIf="!isLoggedIn">
+        <h2 class="header">DriveGreener is an application to track your electric or internal combustion vehicle's fuel consumption and get a better overview on how to save money on your travels!</h2>
+        <div>
+            <h2>How does it work?</h2>
+            <ul>
+                <li>Create an account </li>
+                <li>First, add your vehicle using the Vehicles page. You have to fill some information about the vehicle</li>
+                <li>After that, add a the first fillup for the vehicle</li>
+                <li>With second fillup, all types of different statistics get calculated for the vehicle</li>
+                <li>Enjoy!</li>
+            </ul>
+            <h2>What kind of statistics and values are calculated and displayed?</h2>
+            <h3>For each fillup</h3>
+            <ul>
+                <li>Fuel consumption for each fillup</li>
+                <li>Price per 100km for each fillup</li>
+            </ul>
+            <h3>For a vehicle page</h3>
+            <ul>
+                <li>Total fuel consumption</li>
+                <li>Total distance travelled</li>
+                <li>Total Cost</li>
+                <li>Fuel/Energy used</li>
+                <li>CO2 created in kg's</li>
+            </ul>
+            <h3>Graphs</h3>
+            <ul>
+                <li>Consumption per fillup</li>
+                <li>Trip/distance driven per filling</li>
+                <li>Price per filling</li>
+                <li>Unit price for fillup</li>
+                <li>Consumption in the city</li>
+                <li>Consumption for fuel type</li>
+                <li>Consumption for driving style</li>
+                <li>Consumption for tire type</li>
+                <li>Consumption for vehicle load</li>
+                <li>Consumption per month</li>
+                <li>Cost per month</li>
+            </ul>
+
+        </div>
+    </div>
+    <div *ngIf="isLoggedIn">
+        <h2 class="header">Welcome to home, {{ username }}!</h2>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    <h2>You currently have {{vehicles?.length}} vehicles!</h2>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <ul *ngFor="let vehicle of vehicles">
+                    <li>{{ getVehicleName(vehicle) }}</li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="userStatistics">
+            <mat-card-header>
+                <mat-card-title>
+                    <h2>Your fleets statistics:</h2>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>Distance travelled: {{userStatistics.distance}}km</p>
+                <p>Avg price per 100km: {{userStatistics.hundredCost}}€/100km</p>
+                <p>Total cost: {{userStatistics.totalCost}}€</p>
+                <!-- Make optional -->
+                <p *ngIf="canShowICE()">Average fuel consumption: {{userStatistics.fuelConsumption}}l/100km</p>
+                <!-- Make optional -->
+                <p *ngIf="canShowElectric()">Average energy consumption: {{userStatistics.energyConsumption}}kWh/100km</p>
+                <!-- Make optional -->
+                <p *ngIf="canShowICE()">Fuel consumed: {{userStatistics.fuelConsumed}}l</p>
+                <!-- Make optional -->
+                <p *ngIf="canShowElectric()">Energy consumed: {{userStatistics.energyConsumed}}kWh</p>
+                <p>CO2 Footprint: {{userStatistics.co}}kg</p>
+                <mat-divider></mat-divider>
+            </mat-card-content>
+            <mat-card-actions><button mat-button (click)="goToVehicles()">Your vehicles</button></mat-card-actions>
+        </mat-card>
+    </div>
+    <div class="footer-disclamer">
+        <br>
+        <p>This application was created by Kaur Vali, for his Bachelors thesis at University of Tartu in 2023.</p>
+        <p>The source code for this project is avaliable at GitHub: <a href="https://github.com/kaurvali/DriveGreener ">https://github.com/kaurvali/DriveGreener</a></p>
+        <p>* Image in the banner is from authors personal collection!</p>
+    </div>
 </div>
