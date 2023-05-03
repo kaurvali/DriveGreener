@@ -10,13 +10,13 @@
 
     <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
         <span class="hello-user" *ngIf="isLoggedIn">Hello, {{ username }}!</span>
-        <button mat-menu-item routerLink="/profile" *ngIf="isLoggedIn">
+        <!--<button mat-menu-item routerLink="/profile" *ngIf="isLoggedIn">
                 <mat-icon>person</mat-icon><span>My Account</span>
             </button>
         <button mat-menu-item routerLink="/settings" *ngIf="isLoggedIn">
                 <mat-icon>settings</mat-icon><span>Settings</span>
             </button>
-        <mat-divider *ngIf="isLoggedIn"></mat-divider>
+        <mat-divider *ngIf="isLoggedIn"></mat-divider> -->
         <button mat-menu-item (click)="logout()" *ngIf="isLoggedIn">
                 <mat-icon>exit_to_app</mat-icon>Logout
             </button>

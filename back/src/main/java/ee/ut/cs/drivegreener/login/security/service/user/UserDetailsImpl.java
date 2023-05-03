@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+// based off https://www.bezkoder.com/angular-15-spring-boot-jwt-auth/
+
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
 

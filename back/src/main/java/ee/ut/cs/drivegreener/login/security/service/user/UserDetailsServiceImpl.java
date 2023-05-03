@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+// based off https://www.bezkoder.com/angular-15-spring-boot-jwt-auth/
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired

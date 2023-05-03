@@ -2,6 +2,8 @@ package ee.ut.cs.drivegreener.login.payload.response;
 
 import java.util.List;
 
+// based off https://www.bezkoder.com/angular-15-spring-boot-jwt-auth/
+
 public class UserInfoResponse {
     private Long id;
     private String username;

@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+// based off https://www.bezkoder.com/angular-15-spring-boot-jwt-auth/
+
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 

@@ -2,6 +2,8 @@ package ee.ut.cs.drivegreener.login.payload.request;
 
 import javax.validation.constraints.NotBlank;
 
+// based off https://www.bezkoder.com/angular-15-spring-boot-jwt-auth/
+
 public class LoginRequest {
     @NotBlank
     private String username;

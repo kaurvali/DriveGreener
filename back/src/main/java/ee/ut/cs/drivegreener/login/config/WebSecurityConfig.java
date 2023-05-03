@@ -17,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+// based off https://www.bezkoder.com/angular-15-spring-boot-jwt-auth/
+
 @Configuration
 @EnableGlobalMethodSecurity(
         prePostEnabled = true)

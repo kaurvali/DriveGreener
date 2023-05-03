@@ -11,6 +11,8 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+// based off https://www.bezkoder.com/angular-15-spring-boot-jwt-auth/
+
 @Entity
 @Table(name = "users",
         uniqueConstraints = {

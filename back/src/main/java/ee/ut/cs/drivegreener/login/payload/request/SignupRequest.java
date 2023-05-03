@@ -4,6 +4,8 @@ import java.util.Set;
 
 import javax.validation.constraints.*;
 
+// based off https://www.bezkoder.com/angular-15-spring-boot-jwt-auth/
+
 public class SignupRequest {
     @NotBlank
     @Size(min = 3, max = 20)

@@ -15,14 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @CrossOrigin(origins = "http://localhost:8081", maxAge = 3600, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/fillup")
 public class FillupDataController {
 
-    Logger logger = LoggerFactory.getLogger(FillupDataController.class);
     @Autowired
     private FillupRepository fillupRepository;
     @Autowired
@@ -51,7 +48,6 @@ public class FillupDataController {
             fillupRepository.save(fillup);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
-            logger.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -2,6 +2,8 @@ package ee.ut.cs.drivegreener.login.model;
 
 import javax.persistence.*;
 
+// based off https://www.bezkoder.com/angular-15-spring-boot-jwt-auth/
+
 @Entity
 @Table(name = "roles")
 public class Role {

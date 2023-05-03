@@ -1,5 +1,7 @@
 package ee.ut.cs.drivegreener.login.payload.response;
 
+// based off https://www.bezkoder.com/angular-15-spring-boot-jwt-auth/
+
 public class MessageResponse {
     private String message;
 
